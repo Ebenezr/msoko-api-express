@@ -16,6 +16,7 @@ const currencies = [
     label: "Door Dash",
   },
 ];
+
 export default function () {
   const [loading, setLoading] = useState(false);
   function handleClick() {

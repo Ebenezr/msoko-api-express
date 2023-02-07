@@ -1,3 +1,5 @@
+"use client";
+
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import Rating from "@material-ui/lab/Rating";
@@ -21,22 +23,22 @@ const product = {
   desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo",
 };
 
-export const KES = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "KES",
-});
 export default function () {
   const [isReadMore, setIsReadMore] = useState(true);
-  const [value, setValue] = useState<number | null>(2);
   const classes = useStyles();
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
   };
 
+  const KES = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "KES",
+  });
+
   // Format the price above to USD using the locale, style, and currency.
 
   return (
-    <section className="flex flex-1 flex-col px-6">
+    <section className=" flex flex-1 flex-col px-6">
       {/* header */}
       <nav className="my-2 flex justify-between">
         <Link href="/" className="align-center flex gap-2 ">

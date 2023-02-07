@@ -1,3 +1,6 @@
+"use client";
+
+
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
 import Link from "next/link";

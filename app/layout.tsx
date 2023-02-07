@@ -1,10 +1,24 @@
-import './globals.css'
+"use client";
+import "./globals.css";
+import React, { useEffect, useState } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import styles from "./Page.module.css";
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isIpad, setIsIpad] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(/iPhone|Android/i.test(navigator.userAgent));
+    setIsIpad(/iPad/i.test(navigator.userAgent));
+    setIsDesktop(/Windows|Mac|Linux/i.test(navigator.userAgent));
+  }, []);
   return (
     <html lang="en">
       {/*
@@ -12,7 +26,21 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body
+        className={`  bg-bg ${
+          isMobile
+            ? styles.mobileContainer
+            : isIpad
+            ? styles.ipadContainer
+            : isDesktop
+            ? styles.desktopContainer
+            : styles.mobileContainer
+        }`}
+      >
+        <Header />
+        <main>{children}</main>
+        <Footer />
+      </body>
     </html>
-  )
+  );
 }

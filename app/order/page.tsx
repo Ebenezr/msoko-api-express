@@ -1,3 +1,6 @@
+"use client";
+
+
 import Link from "next/link";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";

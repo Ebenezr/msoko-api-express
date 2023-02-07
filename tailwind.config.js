@@ -17,6 +17,9 @@ module.exports = {
         bg: "#FAF4F0",
         primary: "#010F8C",
       },
+      fontFamily: {
+        montserrat: ["var(--font-montserrat)"],
+      },
     },
   },
   plugins: [],

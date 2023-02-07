@@ -49,7 +49,7 @@ model Product {
   category         ProductCategory    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId       Int
   review           ProductReview[]
-  discount         ProductDiscount    @relation(fields: [discountId], references: [id])
+  discount         ProductDiscount?   @relation(fields: [discountId], references: [id])
   rating           Decimal?
   discountId       Int
   createdAt        DateTime           @default(now())

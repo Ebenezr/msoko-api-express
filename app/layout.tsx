@@ -1,10 +1,17 @@
 "use client";
+
 import "./globals.css";
 import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import styles from "./Page.module.css";
+import { Montserrat } from "@next/font/google";
 
+const montserrat = Montserrat({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+});
 export default function RootLayout({
   children,
 }: {
@@ -27,7 +34,7 @@ export default function RootLayout({
       */}
       <head />
       <body
-        className={`  bg-bg ${
+        className={`font-montserrat  bg-bg ${
           isMobile
             ? styles.mobileContainer
             : isIpad

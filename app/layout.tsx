@@ -1,9 +1,12 @@
 "use client";
 
+import { store, persistor } from "../store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/es/integration/react";
 import "./globals.css";
 import React, { useEffect, useState } from "react";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import styles from "./Page.module.css";
 import { Montserrat } from "@next/font/google";
 
@@ -33,21 +36,25 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body
-        className={`font-montserrat  bg-bg ${
-          isMobile
-            ? styles.mobileContainer
-            : isIpad
-            ? styles.ipadContainer
-            : isDesktop
-            ? styles.desktopContainer
-            : styles.mobileContainer
-        }`}
-      >
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <body
+            className={`font-montserrat  bg-bg ${
+              isMobile
+                ? styles.mobileContainer
+                : isIpad
+                ? styles.ipadContainer
+                : isDesktop
+                ? styles.desktopContainer
+                : styles.mobileContainer
+            }`}
+          >
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </body>
+        </PersistGate>
+      </Provider>
     </html>
   );
 }

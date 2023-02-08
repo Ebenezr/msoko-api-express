@@ -40,22 +40,22 @@ model Address {
 }
 
 model Product {
-  id               Int                @id @default(autoincrement())
-  name             String
-  description      String?
-  price            Float
-  image_url        String
-  size             String
-  category         ProductCategory    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId       Int
-  review           ProductReview[]
-  discount         ProductDiscount?   @relation(fields: [discountId], references: [id])
-  rating           Decimal?
-  discountId       Int
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  ProductInventory ProductInventory[]
-  OrderList        OrderList[]
+  id                Int                @id @default(autoincrement())
+  name              String
+  description       String?
+  price             Float
+  image_url         String
+  size              String
+  category          ProductCategory    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId        Int
+  review            ProductReview[]
+  rating            Decimal?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  ProductInventory  ProductInventory[]
+  OrderList         OrderList[]
+  ProductDiscount   ProductDiscount?   @relation(fields: [productDiscountId], references: [id])
+  productDiscountId Int?
 }
 
 model ProductReview {

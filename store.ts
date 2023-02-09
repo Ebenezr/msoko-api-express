@@ -3,7 +3,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import productReducer from "./features/products/productSlice";
+import productReducer from "./slices/productSlice";
 
 const persistConfig = {
   key: "root",
@@ -16,15 +16,15 @@ const reducer = combineReducers({
   products: productReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, reducer);
+// const persistedReducer = persistReducer(persistConfig, reducer);
 
 export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }),
+  reducer: {
+    products: productReducer,
+  },
 });
 
-export const persistor = persistStore(store);
+// export const persister = persistStore(store);
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}

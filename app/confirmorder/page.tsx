@@ -19,7 +19,7 @@ const currencies = [
   },
 ];
 
-export default function () {
+export default function Confirmorder() {
   const [loading, setLoading] = useState(false);
   function handleClick() {
     setLoading(!loading);

@@ -12,7 +12,7 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
 
-export default function () {
+export default function Order() {
   const [loading, setLoading] = useState(true);
   function handleClick() {
     setLoading(!loading);

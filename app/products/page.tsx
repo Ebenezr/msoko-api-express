@@ -3,11 +3,15 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import Rating from "@material-ui/lab/Rating";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Link from "next/link";
+import { getProducts } from "../../slices/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "@/store";
+
 const useStyles = makeStyles({
   icon: {
     height: "24px",
@@ -23,18 +27,25 @@ const product = {
   desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo",
 };
 
-export default function () {
+export default function Product() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading, categories } = useSelector((store: any) => store.products);
   const [isReadMore, setIsReadMore] = useState(true);
   const classes = useStyles();
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
   };
 
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
   const KES = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "KES",
   });
 
+  console.log("🚀 ~ file: page.tsx:33 ~ Product ~ categories", categories);
   // Format the price above to USD using the locale, style, and currency.
 
   return (

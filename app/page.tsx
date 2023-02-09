@@ -2,20 +2,20 @@ import { Inter } from "@next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-async function getUsers() {
-  const res = await fetch(`${process.env.BASE_URL}/api/getUsers`);
-  if (!res.ok) {
-    console.log("🚀 ~ file: page.tsx:8 ~ getUsers ~ res", res);
-  }
-  return res.json();
-}
-async function getProducts() {
-  const res = await fetch(`${process.env.BASE_URL}/api/getProducts`);
-  if (!res.ok) {
-    console.log("🚀 ~ file: page.tsx:8 ~ getUsers ~ res", res);
-  }
-  return res.json();
-}
+// async function getUsers() {
+//   const res = await fetch(`${process.env.BASE_URL}/api/getUsers`);
+//   if (!res.ok) {
+//     console.log("🚀 ~ file: page.tsx:8 ~ getUsers ~ res", res);
+//   }
+//   return res.json();
+// }
+// async function getProducts() {
+//   const res = await fetch(`${process.env.BASE_URL}/api/getProducts`);
+//   if (!res.ok) {
+//     console.log("🚀 ~ file: page.tsx:8 ~ getUsers ~ res", res);
+//   }
+//   return res.json();
+// }
 
 export default async function Home() {
   // const data = await getUsers();

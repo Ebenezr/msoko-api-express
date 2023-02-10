@@ -2,7 +2,6 @@
 
 import { store } from "../store";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/es/integration/react";
 import "./globals.css";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
@@ -37,7 +36,6 @@ export default function RootLayout({
       */}
       <head />
       <Provider store={store}>
-        {/* <PersistGate loading={null} persistor={persister}> */}
         <body
           className={`font-montserrat  bg-bg ${
             isMobile
@@ -53,7 +51,6 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </body>
-        {/* </PersistGate> */}
       </Provider>
     </html>
   );

@@ -3,22 +3,25 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // fetch app category and products
-export const getProducts = createAsyncThunk(
-  "products/getProducts",
-  async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.BASE_URL}/api/getProducts`
-      );
-      return data;
-    } catch (error) {
-      if (error instanceof Error) {
-        // return thunkAPI.rejectWithValue(error.message);
-      }
-      // return rejectWithValue(error);
-    }
-  }
-);
+// export const getProducts = createAsyncThunk(
+//   "products/getProducts",
+//   async () => {
+//     try {
+//       const resp = await fetch(`${process.env.BASE_URL}/api/getProducts`);
+//       const data = await resp.json();
+//       return data;
+//     } catch (error) {
+//       if (error instanceof Error) {
+//         // return thunkAPI.rejectWithValue(error.message);
+//       }
+//       // return rejectWithValue(error);
+//     }
+//   }
+// );
+async function getProducts() {
+  const res = await fetch(`${process.env.BASE_URL}/api/getProducts`);
+  return res.json();
+}
 
 interface InitialState {
   isLoading: boolean;
@@ -46,7 +49,7 @@ const productSlice = createSlice({
       .addCase(getProducts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.categories = action.payload;
-        state.products = action.payload.products;
+        // state.products = action.payload.products;
       })
       .addCase(getProducts.rejected, (state, action) => {
         state.isLoading = false;

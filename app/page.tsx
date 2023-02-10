@@ -9,18 +9,18 @@ const inter = Inter({ subsets: ["latin"] });
 //   }
 //   return res.json();
 // }
-// async function getProducts() {
-//   const res = await fetch(`${process.env.BASE_URL}/api/getProducts`);
-//   if (!res.ok) {
-//     console.log("🚀 ~ file: page.tsx:8 ~ getUsers ~ res", res);
-//   }
-//   return res.json();
-// }
+async function getProducts() {
+  const res = await fetch(`${process.env.BASE_URL}/api/getProducts`);
+  if (!res.ok) {
+    console.log("🚀 ~ file: page.tsx:8 ~ getUsers ~ res", res);
+  }
+  return res.json();
+}
 
 export default async function Home() {
   // const data = await getUsers();
-  // const data1 = await getProducts();
-  // console.log("🚀 ~ file: page.tsx:23 ~ Home ~ data1", data1);
+  const data1 = await getProducts();
+  console.log("🚀 ~ file: page.tsx:23 ~ Home ~ data1", data1);
   // console.log(data);
   return (
     <p>

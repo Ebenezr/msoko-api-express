@@ -1,5 +1,3 @@
-import { Decimal } from "@prisma/client/runtime";
-
 export type Product = {
   id: number;
   name: string;
@@ -8,7 +6,7 @@ export type Product = {
   rating: number | null;
   image_url: string;
   size: string;
-  reviews: [] | null;
+  reviews: ProductReview[] | null;
   categoryId: number;
   discountId: number | null;
 };
@@ -16,7 +14,8 @@ export type Product = {
 export type ProductCategory = {
   id: number;
   name: string;
-  products: [] | null;
+  code: string;
+  products: Product[] | null;
 };
 
 export type ProductReview = {
@@ -56,7 +55,7 @@ export type Orders = {
   addressId: number;
   // TODO :make enum
   status: string;
-  amount: Decimal;
+  amount: number;
 };
 
 export type OrderList = {

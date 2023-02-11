@@ -14,6 +14,10 @@ const responseTime = require("response-time");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
+// set up swagger
+const swaggerUi = require("swagger-ui-express"),
+  swaggerDocument = require("../swagger.json");
+
 const express = require("express");
 const app = express();
 app.use(responseTime());
@@ -46,6 +50,8 @@ app.use("/api", orderRouter);
 app.use("/api", orderListRouter);
 app.use("/api", reviewsRouter);
 app.use("/api", addressRouter);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(PORT, () =>
   console.log(`REST API server ready at: http://localhost:${PORT}`)

@@ -1,24 +1,32 @@
-import axios, { AxiosResponse } from "axios";
-import { useQuery, UseQueryOptions } from "react-query";
+import axios from "axios";
+import { useQuery, QueryOptions } from "react-query";
 
-interface ApiResponse {
-  // define your response schema here
-}
+type QueryResult<T> = {
+  data: T | undefined;
+  isLoading: boolean;
+  error: unknown;
+};
 
-const useCustomQuery = <T = ApiResponse>(
+const useCustomQuery = <T>(
   url: string,
-  key = "default-query-key",
-  options?: UseQueryOptions<AxiosResponse<T>>
-) => {
-  return useQuery<AxiosResponse<T>>(
-    key,
+  options?: QueryOptions<T, unknown>
+): QueryResult<T> => {
+  const queryKey = url;
+
+  const { data, isLoading, error } = useQuery<T, unknown>(
+    queryKey,
     async () => {
-      const response = await axios.get<T>(url);
-      const data = response.data;
-      return data;
+      const response = await axios.get(url);
+      return response.data;
     },
     options
   );
+
+  return {
+    data,
+    isLoading,
+    error,
+  };
 };
 
 export default useCustomQuery;

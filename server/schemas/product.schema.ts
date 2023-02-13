@@ -19,7 +19,7 @@ export const createProductSchema = z.object({
 
 export const createProductCategorySchema = z.object({
   name: z.string(),
-  code: z.string(),
+  description: z.string(),
   products: z.array(
     z.object({
       name: z.string(),

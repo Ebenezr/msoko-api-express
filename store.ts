@@ -1,16 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "./slices/productSlice";
+import { useProductsStore } from "./slices/productSlice";
 
-// const persistedReducer = persistReducer(persistConfig, reducer);
-
-export const store = configureStore({
-  reducer: {
-    products: productReducer,
-  },
-});
-
-// export const persister = persistStore(store);
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch;
+const useMainStore = create((set, get) => ({
+  cart: [],
+  addToCart: (product) => set({ cart: [...get().cart, product] }),
+  products: useProductsStore((state) => state.products),
+}));

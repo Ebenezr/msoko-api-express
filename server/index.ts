@@ -21,17 +21,10 @@ const swaggerUi = require("swagger-ui-express"),
 const express = require("express");
 const app = express();
 app.use(responseTime());
-// setup cors
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-  })
-);
 
 app.use(express.json());
 
-// load enviroment variables
+// load environment variables
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
@@ -39,7 +32,8 @@ const PORT = process.env.PORT || 5000;
 app.get("/", (req: Request, res: Response) => {
   res.json({ status: "API is running on /api" });
 });
-
+// setup cors
+app.use(cors());
 // routes
 app.use("/api", userRouter);
 app.use("/api", productRouter);
@@ -58,6 +52,13 @@ app.listen(PORT, () =>
 );
 
 app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, UPDATE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
   res.status(404);
   return res.json({
     success: false,

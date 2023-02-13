@@ -7,7 +7,7 @@ const router = Router();
 // ROUTES
 // create new category
 router.post(
-  "/categorys",
+  "/categories",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await prisma.productCategory.create({
@@ -62,16 +62,19 @@ router.patch(
 
 // fetch all categorys
 router.get(
-  "/categorys",
+  "/categories",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const categorys = await prisma.productCategory.findMany({
-        include: { products: true },
+      const categories = await prisma.productCategory.findMany({
+        include: {
+          products: {
+            include: {
+              review: true,
+            },
+          },
+        },
       });
-      res.json({
-        success: true,
-        payload: categorys,
-      });
+      res.json(categories);
     } catch (error) {
       next(error);
     }

@@ -8,9 +8,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Link from "next/link";
-import { getProducts } from "../../slices/productSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "@/store";
 
 const useStyles = makeStyles({
   icon: {
@@ -28,24 +25,17 @@ const product = {
 };
 
 export default function Product() {
-  const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, categories } = useSelector((store: any) => store.products);
   const [isReadMore, setIsReadMore] = useState(true);
   const classes = useStyles();
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
   };
 
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-
   const KES = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "KES",
   });
 
-  console.log("🚀 ~ file: page.tsx:33 ~ Product ~ categories", categories);
   // Format the price above to USD using the locale, style, and currency.
 
   return (

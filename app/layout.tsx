@@ -36,7 +36,7 @@ export default function RootLayout({
       <head />
       <QueryClientProvider client={queryClient} contextSharing={true}>
         <body
-          className={`font-montserrat overflow-hidden bg-bg ${
+          className={`font-montserrat bg-bg ${
             isMobile
               ? styles.mobileContainer
               : isIpad

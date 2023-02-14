@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import styles from "./Page.module.css";
 import { Montserrat } from "@next/font/google";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Head from "next/head";
 
 const queryClient = new QueryClient();
 const montserrat = Montserrat({
@@ -33,7 +34,10 @@ export default function RootLayout({
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
-      <head />
+      <Head >
+        <title>Kapa Store</title>
+        <meta property="og:title" content="Kapa oil ltd" key="title" />
+      </Head>
       <QueryClientProvider client={queryClient} contextSharing={true}>
         <body
           className={`font-montserrat bg-bg ${

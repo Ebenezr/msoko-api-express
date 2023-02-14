@@ -1,9 +1,8 @@
 "use client";
-import { ProductInventory } from "@/server/models/productInventory.model";
-import { CreateProductCategoryInput } from "@/server/schemas/product.schema";
 import { ProductCategory } from "@/type";
 import React, { useState } from "react";
 import useCustomQuery from "../../pages/queries/getQuery";
+import styles from "../Page.module.css";
 
 const HomePage = () => {
   const { isLoading, data, error } = useCustomQuery(
@@ -30,26 +29,30 @@ const HomePage = () => {
       </div>
       {/* banner */}
       <div className="my-4 h-28 w-full  rounded-md bg-primary/75"></div>
-      <div className="w-full bg-green-200 overflow-hidden">
+      <div className="w-[90%] overflow-hidden ">
         {/* category */}
 
-        <div className="flex-1 w-full ">
+        <div className="flex-1  ">
           <p className="mb-6 font-semibold">Category</p>
           {/* wrapper */}
           <div>
-            <div className=" w-full bg-green-100">
-              <div className="flex overflow-x-auto gap-3 px-3 ">
+            <div
+              className={`${styles.no_scrollbar} flex overflow-x-scroll hide-scroll-bar `}
+            >
+              <div className="flex flex-nowrap ">
                 {/* card */}
                 {isLoading ? (
                   <div>Fetching</div>
                 ) : data instanceof Array ? (
                   data?.map((prod: ProductCategory) => (
-                    <div key={prod.id} className=" group">
-                      {/* image */}
-                      <div className="h-16 min-w-max flex-shrink-0 rounded-md bg-white group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"></div>
-                      <small className="font-semibold group-hover:text-primary text-xs group-focus:text-primary">
-                        {prod.name}
-                      </small>
+                    <div key={prod.id} className=" group inline-block">
+                      <div className="w-24 px-3 flex flex-col justify-center gap-2 ">
+                        {/* image */}
+                        <div className="h-16 w-full rounded-md bg-white group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"></div>
+                        <small className="font-semibold group-hover:text-primary text-[0.35rem] whitespace-nowrap group-focus:text-primary">
+                          {prod.name}
+                        </small>
+                      </div>
                     </div>
                   ))
                 ) : null}

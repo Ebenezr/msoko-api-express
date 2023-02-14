@@ -24,7 +24,7 @@ export default async function Home() {
   // console.log(data);
   return (
     <p>
-      ypp
+      home
       {/* {data1.map((item: any) => (
         <div key={item.id} className="">
           {item.name}

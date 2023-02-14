@@ -14,7 +14,7 @@ router.post(
         data: { ...req.body },
       });
 
-      res.json({ success: true, payload: result });
+      res.json(result);
     } catch (error) {
       next(error);
     }
@@ -27,13 +27,10 @@ router.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
-      const song = await prisma.product.delete({
+      const products = await prisma.product.delete({
         where: { id: Number(id) },
       });
-      res.json({
-        success: true,
-        payload: song,
-      });
+      res.json(products);
     } catch (error) {
       next(error);
     }
@@ -50,10 +47,7 @@ router.patch(
         where: { id: Number(id) },
         data: { ...req.body },
       });
-      res.json({
-        success: true,
-        payload: product,
-      });
+      res.json(product);
     } catch (error) {
       next(error);
     }
@@ -68,10 +62,7 @@ router.get(
       const products = await prisma.product.findMany({
         include: { review: true },
       });
-      res.json({
-        success: true,
-        payload: products,
-      });
+      res.json(products);
     } catch (error) {
       next(error);
     }
@@ -92,10 +83,7 @@ router.get(
           review: true,
         },
       });
-      res.json({
-        success: true,
-        payload: products,
-      });
+      res.json(products);
     } catch (error) {
       next(error);
     }

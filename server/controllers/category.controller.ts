@@ -13,8 +13,7 @@ router.post(
       const result = await prisma.productCategory.create({
         data: { ...req.body },
       });
-
-      res.json({ success: true, payload: result });
+      res.json(result);
     } catch (error) {
       next(error);
     }
@@ -27,13 +26,10 @@ router.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
-      const song = await prisma.productCategory.delete({
+      const category = await prisma.productCategory.delete({
         where: { id: Number(id) },
       });
-      res.json({
-        success: true,
-        payload: song,
-      });
+      res.json(category);
     } catch (error) {
       next(error);
     }
@@ -50,10 +46,7 @@ router.patch(
         where: { id: Number(id) },
         data: { ...req.body },
       });
-      res.json({
-        success: true,
-        payload: category,
-      });
+      res.json(category);
     } catch (error) {
       next(error);
     }
@@ -87,7 +80,7 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
-      const categorys = await prisma.productCategory.findUnique({
+      const categories = await prisma.productCategory.findUnique({
         where: {
           id: Number(id),
         },
@@ -95,10 +88,7 @@ router.get(
           products: true,
         },
       });
-      res.json({
-        success: true,
-        payload: categorys,
-      });
+      res.json(categories);
     } catch (error) {
       next(error);
     }

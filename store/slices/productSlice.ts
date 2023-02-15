@@ -1,4 +1,3 @@
-import { persist } from "zustand/middleware";
 import { StateCreator } from "zustand";
 import CartState from "../types/iProduct";
 import { Product } from "@/server/models/product.model";

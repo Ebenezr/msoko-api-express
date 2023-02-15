@@ -1,4 +1,5 @@
 import create from "zustand";
+
 import CartState from "./types/iProduct";
 import useProductsStore from "./slices/productSlice";
 

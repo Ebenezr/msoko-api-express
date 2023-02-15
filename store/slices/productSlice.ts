@@ -14,6 +14,20 @@ const useCart: StateCreator<CartState> = (set, get) => ({
       cartContent: [...state.cartContent, params],
     }));
   },
+  clearCart: () => set({ totalQty: 0, total: 0, cartContent: [] }),
+  removeFromCart: (params) =>
+    set((state) => ({
+      total: state.total - params.price * params.quantity,
+      totalQty: state.totalQty - params.quantity,
+      cartContent: state.cartContent.filter((item) => item.id !== params.id),
+    })),
+  updateCart: ({ params, myCart }) => {
+    set((state) => ({
+      totalQty: state.totalQty + 1,
+      total: state.total + params.price,
+      cartContent: myCart,
+    }));
+  },
 });
 
 // persist(

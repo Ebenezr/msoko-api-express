@@ -6,9 +6,9 @@ export interface Product {
   description: string | null;
   price: number;
   rating: number | null;
-  image_url: string;
+  image_url?: string;
   size: string;
   reviews: ProductReview[] | null;
   categoryId: number;
-  discountId: number | null;
+  discountId?: number | null;
 }

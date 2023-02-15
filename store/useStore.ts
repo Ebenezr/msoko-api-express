@@ -1,10 +1,10 @@
 import create from "zustand";
 
 import CartState from "./types/iProduct";
-import useProductsStore from "./slices/productSlice";
+import useCartStore from "./slices/cartSlice";
 
 const useStore = create<CartState>()((...a) => ({
-  ...useProductsStore(...a),
+  ...useCartStore(...a),
 }));
 
 export default useStore;

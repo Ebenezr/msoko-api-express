@@ -2,10 +2,11 @@ import { StateCreator, create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 import { Product } from "@/server/models/product.model";
+import ProductState from "../types/iProductState";
 
-export const useProdStore = create(
-  persist((set, get) => ({}), {
-    name: "product-storage", // name of the item in the storage (must be unique)
-    storage: createJSONStorage(() => sessionStorage),
-  })
-);
+const useProdStore: StateCreator<ProductState> = (set, get) => ({
+  products: [],
+  categories: [],
+});
+
+export default useProdStore;

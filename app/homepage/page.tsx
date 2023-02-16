@@ -1,6 +1,7 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { Product, ProductCategory } from "@/type";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import useCustomQuery from "../../pages/queries/getQuery";
 import styles from "../Page.module.css";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Head from "next/head";
 import useCustomShowQuery from "@/pages/queries/getOneQuery";
 import { productCategory } from "@/server/models/productCategory.model";
+import useStore from "../../store/useStore";
 
 const KES = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -16,16 +18,29 @@ const KES = new Intl.NumberFormat("en-US", {
 });
 
 const HomePage = () => {
+  const router = useRouter();
   const [cartId, setCatId] = useState<number>(1);
+  const [productId, setProductId] = useState<number>(1);
+
+  const setCurrentProduct = useStore((state) => state.setCurrentProduct);
+
   const { data: catProd, fetchData } = useCustomShowQuery(
     "http://localhost:5000/api/category",
     cartId
+  );
+  const { data: product, fetchData: fetchProduct } = useCustomShowQuery(
+    "http://localhost:5000/api/product",
+    productId
   );
 
   // call fetchData when cartId changes
   useEffect(() => {
     fetchData();
   }, [cartId, fetchData]);
+
+  useEffect(() => {
+    fetchProduct();
+  }, [productId, fetchProduct]);
 
   const {
     isLoading,
@@ -114,7 +129,13 @@ const HomePage = () => {
                   catProd?.map((prod: Product) => (
                     <div
                       key={prod.id}
-                      className="px-3 shrink-0 inline-block text-center w-28 flex flex-col"
+                      className="px-3 shrink-0 inline-block text-left w-28 flex flex-col cursor-pointer"
+                      onClick={() => {
+                        setProductId(prod.id);
+                        fetchProduct();
+                        setCurrentProduct(prod);
+                        router.push("/products");
+                      }}
                     >
                       {/* image */}
                       <div className="w-full h-20 shrink-0 bg-primary/50 "></div>
@@ -127,29 +148,6 @@ const HomePage = () => {
                       <p className="font-semibold text-xs text-primary mt-2 flex-1">
                         {KES.format(prod.price)}
                       </p>
-                      {/* quantity */}
-                      <div className="align-center flex mt-3 w-full flex-col justify-center px-2">
-                        <div className=" grid w-full grid-cols-3 overflow-hidden rounded-full align-center justify-between border-[1px] border-neutral-300">
-                          <IconButton
-                            aria-label="minus"
-                            className="h-6 w-6 my-auto"
-                          >
-                            <RemoveIcon />
-                          </IconButton>
-                          <input
-                            type="text"
-                            className="h-full text-center"
-                            disabled
-                            value="2"
-                          />
-                          <IconButton
-                            aria-label="add"
-                            className="h-7 w-7 my-auto"
-                          >
-                            <AddIcon />
-                          </IconButton>
-                        </div>
-                      </div>
                     </div>
                   ))
                 ) : null}

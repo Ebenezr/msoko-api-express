@@ -14,7 +14,7 @@ router.post(
         data: { ...req.body },
       });
 
-      res.json({ success: true, payload: result });
+      res.json(result);
     } catch (error) {
       next(error);
     }
@@ -27,13 +27,10 @@ router.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
-      const song = await prisma.productInventory.delete({
+      const inventory = await prisma.productInventory.delete({
         where: { id: Number(id) },
       });
-      res.json({
-        success: true,
-        payload: song,
-      });
+      res.json(inventory);
     } catch (error) {
       next(error);
     }
@@ -50,10 +47,7 @@ router.patch(
         where: { id: Number(id) },
         data: { ...req.body },
       });
-      res.json({
-        success: true,
-        payload: inventory,
-      });
+      res.json(inventory);
     } catch (error) {
       next(error);
     }
@@ -66,31 +60,25 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const inventories = await prisma.productInventory.findMany();
-      res.json({
-        success: true,
-        payload: inventories,
-      });
+      res.json(inventories);
     } catch (error) {
       next(error);
     }
   }
 );
 
-// fetch single inventorys
+// fetch single inventories
 router.get(
   "/inventory/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
-      const inventorys = await prisma.productInventory.findUnique({
+      const inventories = await prisma.productInventory.findUnique({
         where: {
           id: Number(id),
         },
       });
-      res.json({
-        success: true,
-        payload: inventorys,
-      });
+      res.json(inventories);
     } catch (error) {
       next(error);
     }

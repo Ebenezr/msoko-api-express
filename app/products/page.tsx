@@ -8,6 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Link from "next/link";
+import useCustomShowQuery from "@/pages/queries/getOneQuery";
+import useStore from "@/store/useStore";
 
 const useStyles = makeStyles({
   icon: {
@@ -36,13 +38,17 @@ export default function Product() {
     currency: "KES",
   });
 
+  const currentProduct = useStore((state) => state.currentProduct);
+
+  console.log(currentProduct);
+
   // Format the price above to USD using the locale, style, and currency.
 
   return (
     <section className=" flex flex-1 flex-col px-6">
       {/* header */}
       <nav className="my-2 flex justify-between">
-        <Link href="/" className="align-center flex gap-2 ">
+        <Link href="/homepage" className="align-center flex gap-2 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -103,14 +109,14 @@ export default function Product() {
       </div>
       {/* prod feat */}
       <div className="flex w-full flex-1 flex-col ">
-        <p className="text-lg font-bold">Noodle</p>
+        <p className="text-lg font-bold">{currentProduct?.name}</p>
         <div className="mt-3 flex items-center gap-2">
           <p className="">4.0</p>
           {/* star rating */}
           <span className="flex">
             <Rating
               name="read-only"
-              value={product.rating}
+              value={currentProduct.rating}
               precision={0.5}
               readOnly
               icon={
@@ -134,17 +140,19 @@ export default function Product() {
             />
           </span>
           <small className="text-neutral-400">
-            ({product.reviews} reviews)
+            {/* ({currentProduct.reviews} reviews) */}
           </small>
         </div>
 
-        <p className="mt-2">Size: {product.size}</p>
+        <p className="mt-2">Size: {currentProduct?.size}</p>
         <p className="mt-3 text-lg font-bold text-primary">
-          {KES.format(product.price)}
+          {KES.format(currentProduct?.price)}
         </p>
         <p className="mt-4 text-lg font-semibold">Descriptions</p>
         <p className="mt-3 leading-5 text-neutral-700">
-          {isReadMore ? product.desc.slice(0, 150) : product.desc}
+          {isReadMore
+            ? currentProduct.description?.slice(0, 150)
+            : currentProduct?.description}
           <button
             onClick={toggleReadMore}
             className="flex w-full cursor-pointer justify-center gap-2 py-4  text-[16px] font-medium leading-4 tracking-wide text-primary "

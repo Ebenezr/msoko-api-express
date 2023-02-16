@@ -1,12 +1,14 @@
 "use client";
 import { Product, ProductCategory } from "@/type";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import useCustomQuery from "../../pages/queries/getQuery";
 import styles from "../Page.module.css";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import IconButton from "@mui/material/IconButton";
 import Head from "next/head";
+import useCustomShowQuery from "@/pages/queries/getOneQuery";
+import { productCategory } from "@/server/models/productCategory.model";
 
 const KES = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -14,6 +16,17 @@ const KES = new Intl.NumberFormat("en-US", {
 });
 
 const HomePage = () => {
+  const [cartId, setCatId] = useState<number>(1);
+  const { data: catProd, fetchData } = useCustomShowQuery(
+    "http://localhost:5000/api/category",
+    cartId
+  );
+
+  // call fetchData when cartId changes
+  useEffect(() => {
+    fetchData();
+  }, [cartId, fetchData]);
+
   const {
     isLoading,
     data: categories,
@@ -69,7 +82,13 @@ const HomePage = () => {
                       <div key={prod.id} className=" group inline-block">
                         <div className="shrink-0 px-3 flex flex-col justify-center gap-2 ">
                           {/* image */}
-                          <div className="w-28 h-16 w-full rounded-md bg-white group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"></div>
+                          <div
+                            className="w-28 h-16 w-full rounded-md bg-white group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"
+                            onClick={() => {
+                              setCatId(prod.id);
+                              fetchData();
+                            }}
+                          ></div>
                           <p className="text-center font-semibold grow-0 group-hover:text-primary text-xs whitespace-nowrap group-focus:text-primary">
                             {prod.name}
                           </p>
@@ -91,8 +110,8 @@ const HomePage = () => {
               <div className="flex flex-nowrap w-full p-4">
                 {isLoading ? (
                   <div>Fetching</div>
-                ) : products instanceof Array ? (
-                  products?.map((prod: Product) => (
+                ) : catProd instanceof Array ? (
+                  catProd?.map((prod: Product) => (
                     <div
                       key={prod.id}
                       className="px-3 shrink-0 inline-block text-center w-28 flex flex-col"

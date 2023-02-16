@@ -1,5 +1,8 @@
+import { ProductCategory } from "@/type";
 import { NextFunction, Request, Response, Router } from "express";
 import { PrismaClient } from "@prisma/client";
+import { productCategory } from "../models/productCategory.model";
+import { Product } from "../models/product.model";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -36,7 +39,7 @@ router.delete(
   }
 );
 
-// update categorys
+// update category
 router.patch(
   "/category/:id",
   async (req: Request, res: Response, next: NextFunction) => {
@@ -53,7 +56,7 @@ router.patch(
   }
 );
 
-// fetch all categorys
+// fetch all category
 router.get(
   "/categories",
   async (req: Request, res: Response, next: NextFunction) => {
@@ -74,9 +77,9 @@ router.get(
   }
 );
 
-// fetch single categorys
+// fetch single categories
 router.get(
-  "/categorys/:id",
+  "/category/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
@@ -88,7 +91,8 @@ router.get(
           products: true,
         },
       });
-      res.json(categories);
+      const products = categories?.products || []; // extract the products array from the categories object
+      res.json(products);
     } catch (error) {
       next(error);
     }

@@ -17,6 +17,12 @@ const useProdStore: StateCreator<ProductState> = (set, get) => ({
     categoryId: 1,
     discountId: 1,
   },
+  wishList: [],
+  addToWishList: (params: Product) => {
+    set((state) => ({
+      wishList: [...state.wishList, params],
+    }));
+  },
   products: [],
   categories: [],
   setCurrentProduct: (params: Product) => {

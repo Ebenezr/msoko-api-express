@@ -1,11 +1,22 @@
-import { Product } from "@/server/models/product.model";
+// import { Product } from "@/server/models/product.model";
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  quantity?: number;
+  description?: string;
+  rating?: number;
+  image_url?: string;
+  size: string;
+  reviews?: [];
+  categoryId: number;
+  discountId?: number;
+}
 interface CartState {
   total: number;
   totalQty: number;
   cartContent: Product[];
-  wishList: Product[];
-  addToWishList: (params: Product) => void;
   addToCart: (params: Product) => void;
   updateCart: (params: { params: Product; myCart: Product[] }) => void;
   clearCart: () => void;

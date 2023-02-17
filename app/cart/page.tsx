@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
-import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import IconButton from "@mui/material/IconButton";
 import Checkbox from "@mui/material/Checkbox";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { useState } from "react";
+import useStore from "@/store/useStore";
+import { useEffect, useState } from "react";
 
 const KES = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -47,6 +47,14 @@ const list = [
 export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [checked, setChecked] = useState(true);
+  const [loaded, setLoaded] = useState(false);
+  const cartList = useStore((state) => state.cartContent);
+  const subTotal = useStore((state) => state.total);
+  // prevent hydration error(zustand persist)
+  useEffect(() => {
+    setLoaded(true);
+  }, [cartList]);
+
   function handleClick() {
     setLoading(!loading);
   }
@@ -94,51 +102,55 @@ export default function Cart() {
         </span>
       </nav>
       {/* items */}
-      {list.map((item) => (
-        <div key={item.id} className="my-3 w-full flex-1  py-2">
-          <div className="align-center flex w-full py-4">
-            <div className="grid place-items-center  ">
-              <Checkbox
-                className=" my-auto"
-                color="primary"
-                checked={checked}
-                onChange={handleChange}
-                inputProps={{ "aria-label": "controlled" }}
-              />
-            </div>
-            <div className="relative  grid h-20 w-5/6 grid-cols-3  rounded-lg bg-white shadow-lg">
-              {/* image  */}
-              <div className="h-full bg-green-300"></div>
-              {/* prod desc */}
-              <div className="grid grid-rows-3 justify-center text-center">
-                <p className="text-lg font-semibold">{item.name}</p>
-                <small className="text-neutral-400">Size:{item.size}</small>
-                <p className="text-primary"> {KES.format(item.price)}</p>
+      {loaded ? (
+        cartList.map((item) => (
+          <div key={item.id} className="my-3 w-full flex-1  py-2">
+            <div className="align-center flex w-full py-4">
+              <div className="grid place-items-center  ">
+                <Checkbox
+                  className=" my-auto"
+                  color="primary"
+                  checked={checked}
+                  onChange={handleChange}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
               </div>
-              {/* quantity */}
-              <div className="align-center flex h-full w-full flex-col justify-center px-2">
-                <div className=" grid h-1/2 w-full grid-cols-3 overflow-hidden rounded-full  border-2 border-primary px-2 ">
-                  <IconButton aria-label="minus">
-                    <RemoveIcon />
-                  </IconButton>
-                  <input type="text" className="h-full" disabled />
-                  <IconButton aria-label="add">
-                    <AddIcon />
-                  </IconButton>
+              <div className="relative  grid h-20 w-5/6 grid-cols-3  rounded-lg bg-white shadow-lg">
+                {/* image  */}
+                <div className="h-full bg-green-300"></div>
+                {/* prod desc */}
+                <div className="grid grid-rows-3 justify-center text-center">
+                  <p className="text-lg font-semibold">{item.name}</p>
+                  <small className="text-neutral-400">Size:{item.size}</small>
+                  <p className="text-primary"> {KES.format(item.price)}</p>
                 </div>
+                {/* quantity */}
+                <div className="align-center flex h-full w-full flex-col justify-center px-2">
+                  <div className=" grid h-1/2 w-full grid-cols-3 overflow-hidden rounded-full  border-2 border-primary px-2 ">
+                    <IconButton aria-label="minus">
+                      <RemoveIcon />
+                    </IconButton>
+                    <input type="text" className="h-full" disabled />
+                    <IconButton aria-label="add">
+                      <AddIcon />
+                    </IconButton>
+                  </div>
+                </div>
+                {/*  */}
+                {/* delete item */}
+                <IconButton
+                  aria-label="add"
+                  className="absolute right-0 top-0 -translate-y-1/2  translate-x-1/2 "
+                >
+                  <CancelIcon />
+                </IconButton>
               </div>
-              {/*  */}
-              {/* delete item */}
-              <IconButton
-                aria-label="add"
-                className="absolute right-0 top-0 -translate-y-1/2  translate-x-1/2 "
-              >
-                <CancelIcon />
-              </IconButton>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p>Fetching</p>
+      )}
 
       {/* totals */}
       {/* promo code */}
@@ -166,7 +178,7 @@ export default function Cart() {
         <div className="my-4 w-full px-8 text-primary">
           <span className="flex justify-between">
             <p>Sub Total:</p>
-            <p>551.00</p>
+            <p>  {loaded ? KES.format(subTotal) : ""}</p>
           </span>
           <span className="flex justify-between">
             <p>Shipping:</p>

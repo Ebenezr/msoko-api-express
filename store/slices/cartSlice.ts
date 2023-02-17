@@ -1,11 +1,11 @@
 import { StateCreator } from "zustand";
-import CartState from "../types/iCartState";
+import CartState, { Product } from "../types/iCartState";
 
 const useCart: StateCreator<CartState> = (set, get) => ({
   total: 0,
   totalQty: 0,
   cartContent: [],
-  addToCart: (params: any) => {
+  addToCart: (params: Product) => {
     set((state) => {
       // Check if the product is already in the cart
       const existingProductIndex = state.cartContent.findIndex(
@@ -34,12 +34,28 @@ const useCart: StateCreator<CartState> = (set, get) => ({
     });
   },
   clearCart: () => set({ totalQty: 0, total: 0, cartContent: [] }),
-  removeFromCart: (params) =>
-    set((state) => ({
-      total: state.total - params.price * params.quantity,
-      totalQty: state.totalQty - params.quantity,
-      cartContent: state.cartContent.filter((item) => item.id !== params.id),
-    })),
+  removeFromCart: (params: Product) =>
+    set((state) => {
+      const itemToRemove = state.cartContent.find(
+        (item) => item.id === params.id
+      );
+      if (!itemToRemove) {
+        // Item not found in cart, return the current state
+        return state;
+      }
+
+      const quantity = itemToRemove.quantity || 0; // <-- use 0 if quantity is undefined
+      const price = itemToRemove.price;
+      const newCartContent = state.cartContent.filter(
+        (item) => item.id !== params.id
+      );
+
+      return {
+        total: state.total - price * quantity,
+        totalQty: state.totalQty - quantity,
+        cartContent: newCartContent,
+      };
+    }),
   updateCart: ({ params, myCart }) => {
     set((state) => ({
       totalQty: state.totalQty + 1,

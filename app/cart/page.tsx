@@ -14,42 +14,14 @@ const KES = new Intl.NumberFormat("en-US", {
   currency: "KES",
 });
 
-const list = [
-  {
-    id: 1,
-    name: "Noodle",
-    rating: 4,
-    reviews: 14,
-    price: 55.0,
-    size: "500G",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo",
-  },
-  {
-    id: 2,
-    name: "Prestige",
-    rating: 4,
-    reviews: 14,
-    price: 550.0,
-    size: "1KG",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo",
-  },
-  {
-    id: 3,
-    name: "Kasuku",
-    rating: 4,
-    reviews: 14,
-    price: 150.0,
-    size: "750G",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo",
-  },
-];
-
 export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [checked, setChecked] = useState(true);
   const [loaded, setLoaded] = useState(false);
   const cartList = useStore((state) => state.cartContent);
   const subTotal = useStore((state) => state.total);
+  const totalQty = useStore((state) => state.totalQty);
+  const removeFromCart = useStore((state) => state.removeFromCart);
   // prevent hydration error(zustand persist)
   useEffect(() => {
     setLoaded(true);
@@ -120,25 +92,32 @@ export default function Cart() {
                 <div className="h-full bg-green-300"></div>
                 {/* prod desc */}
                 <div className="grid grid-rows-3 justify-center text-center">
-                  <p className="text-lg font-semibold">{item.name}</p>
-                  <small className="text-neutral-400">Size:{item.size}</small>
-                  <p className="text-primary"> {KES.format(item.price)}</p>
+                  <p className="text-xs font-semibold">{item?.name}</p>
+                  <small className="text-neutral-400">Size:{item?.size}</small>
+                  <p className="text-primary"> {KES.format(item?.price)}</p>
                 </div>
                 {/* quantity */}
                 <div className="align-center flex h-full w-full flex-col justify-center px-2">
-                  <div className=" grid h-1/2 w-full grid-cols-3 overflow-hidden rounded-full  border-2 border-primary px-2 ">
+                  <div className=" grid h-1/2 w-full grid-cols-3 overflow-hidden rounded-full  border-[1px] border-primary/75 px-2 ">
                     <IconButton aria-label="minus">
                       <RemoveIcon />
                     </IconButton>
-                    <input type="text" className="h-full" disabled />
+                    <input
+                      type="text"
+                      className="h-full"
+                      disabled
+                      value={item?.quantity}
+                    />
                     <IconButton aria-label="add">
                       <AddIcon />
                     </IconButton>
                   </div>
                 </div>
-                {/*  */}
-                {/* delete item */}
+                {/* delete item from cart */}
                 <IconButton
+                  onClick={() => {
+                    removeFromCart(item);
+                  }}
                   aria-label="add"
                   className="absolute right-0 top-0 -translate-y-1/2  translate-x-1/2 "
                 >
@@ -178,7 +157,7 @@ export default function Cart() {
         <div className="my-4 w-full px-8 text-primary">
           <span className="flex justify-between">
             <p>Sub Total:</p>
-            <p>  {loaded ? KES.format(subTotal) : ""}</p>
+            <p> {loaded ? KES.format(subTotal) : ""}</p>
           </span>
           <span className="flex justify-between">
             <p>Shipping:</p>
@@ -189,8 +168,10 @@ export default function Cart() {
       {/* price card */}
       <div className="align-center flex h-16 w-full justify-between rounded-lg bg-primary px-4">
         <div className="my-auto flex flex-col justify-center text-white">
-          <small>Total: 3 items</small>
-          <p className="text-lg font-bold">KES 750.00</p>
+          <small>Total: {loaded ? totalQty : ""} items</small>
+          <p className="text-lg font-bold">
+            {loaded ? KES.format(subTotal + 200) : ""}
+          </p>
         </div>
 
         <Link href="/payment" className="my-auto rounded-md bg-white px-2 py-2">

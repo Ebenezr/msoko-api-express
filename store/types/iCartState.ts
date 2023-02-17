@@ -2,7 +2,7 @@
 
 import { ProductReview } from "@/server/models/productReview.model";
 
-interface Product {
+export interface Product {
   id: number;
   name: string;
   price: number;
@@ -22,11 +22,7 @@ interface CartState {
   addToCart: (params: Product) => void;
   updateCart: (params: { params: Product; myCart: Product[] }) => void;
   clearCart: () => void;
-  removeFromCart: (params: {
-    id: number;
-    price: number;
-    quantity: number;
-  }) => void;
+  removeFromCart: (params: Product) => void;
 }
 
 export default CartState;

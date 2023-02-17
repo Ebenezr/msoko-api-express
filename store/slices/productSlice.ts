@@ -10,7 +10,7 @@ const useProdStore: StateCreator<ProductState> = (set, get) => ({
     name: "",
     description: "",
     price: 0,
-    rating: 0,
+    rating: 5,
     image_url: "",
     size: "",
     reviews: [],

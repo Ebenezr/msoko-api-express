@@ -12,7 +12,7 @@ export const useStore = create<ProductState & CartState>()(
       ...useProdStore(...a),
     }),
     {
-      name: "product-storage",
+      name: "next-zustand",
       storage: createJSONStorage(() => sessionStorage),
     }
   )

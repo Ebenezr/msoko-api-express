@@ -17,17 +17,9 @@ const useStyles = makeStyles({
   },
 });
 
-const product = {
-  name: "Noodle",
-  rating: 4,
-  reviews: 14,
-  price: 55.0,
-  size: "500G",
-  desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, quasi Lorem ipsum dolor sit amet consectetur adipisicing elit.Vel, recusandae ad praesentium quod culpa nemo",
-};
-
 export default function Product() {
   const [isReadMore, setIsReadMore] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   const classes = useStyles();
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
@@ -40,7 +32,10 @@ export default function Product() {
 
   const currentProduct = useStore((state) => state.currentProduct);
 
-  console.log(currentProduct);
+  // prevent hydration error(zustand persist)
+  useEffect(() => {
+    setLoaded(true);
+  }, [currentProduct]);
 
   // Format the price above to USD using the locale, style, and currency.
 
@@ -109,14 +104,16 @@ export default function Product() {
       </div>
       {/* prod feat */}
       <div className="flex w-full flex-1 flex-col ">
-        <p className="text-lg font-bold">{currentProduct?.name}</p>
+        <p className="text-lg font-bold">
+          {loaded ? currentProduct?.name : ""}
+        </p>
         <div className="mt-3 flex items-center gap-2">
           <p className="">4.0</p>
           {/* star rating */}
           <span className="flex">
             <Rating
               name="read-only"
-              value={currentProduct.rating}
+              value={loaded ? currentProduct?.rating : 5}
               precision={0.5}
               readOnly
               icon={
@@ -144,41 +141,23 @@ export default function Product() {
           </small>
         </div>
 
-        <p className="mt-2">Size: {currentProduct?.size}</p>
+        <p className="mt-2">Size: {loaded ? currentProduct?.size : ""}</p>
         <p className="mt-3 text-lg font-bold text-primary">
-          {KES.format(currentProduct?.price)}
+          {loaded ? KES.format(currentProduct?.price) : ""}
         </p>
         <p className="mt-4 text-lg font-semibold">Descriptions</p>
-        <p className="mt-3 leading-5 text-neutral-700">
-          {isReadMore
-            ? currentProduct.description?.slice(0, 150)
-            : currentProduct?.description}
-          <button
-            onClick={toggleReadMore}
-            className="flex w-full cursor-pointer justify-center gap-2 py-4  text-[16px] font-medium leading-4 tracking-wide text-primary "
-          >
-            {isReadMore ? (
-              <>
-                Show more
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="h-6 w-6 text-primary"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                  />
-                </svg>
-              </>
-            ) : (
-              <>
-                Show less
-                <span>
+        {loaded ? (
+          <p className="mt-3 leading-5 text-neutral-700">
+            {isReadMore
+              ? currentProduct?.description?.slice(0, 150)
+              : currentProduct?.description}
+            <button
+              onClick={toggleReadMore}
+              className="flex w-full cursor-pointer justify-center gap-2 py-4  text-[16px] font-medium leading-4 tracking-wide text-primary "
+            >
+              {isReadMore ? (
+                <>
+                  Show more
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -190,14 +169,34 @@ export default function Product() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                     />
                   </svg>
-                </span>
-              </>
-            )}
-          </button>
-        </p>
+                </>
+              ) : (
+                <>
+                  Show less
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="h-6 w-6 text-primary"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                      />
+                    </svg>
+                  </span>
+                </>
+              )}
+            </button>
+          </p>
+        ) : null}
       </div>
       {/* buttons */}
       <div className="grid w-full grid-cols-2 gap-3 py-8">

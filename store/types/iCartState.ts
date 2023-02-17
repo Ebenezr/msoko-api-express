@@ -4,6 +4,8 @@ interface CartState {
   total: number;
   totalQty: number;
   cartContent: Product[];
+  wishList: Product[];
+  addToWishList: (params: Product) => void;
   addToCart: (params: Product) => void;
   updateCart: (params: { params: Product; myCart: Product[] }) => void;
   clearCart: () => void;

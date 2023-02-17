@@ -6,6 +6,12 @@ const useCart: StateCreator<CartState> = (set, get) => ({
   total: 0,
   totalQty: 0,
   cartContent: [],
+  wishList: [],
+  addToWishList: (params: Product) => {
+    set((state) => ({
+      wishList: [...state.wishList, params],
+    }));
+  },
   addToCart: (params: Product) => {
     set((state) => ({
       totalQty: state.totalQty + 1,

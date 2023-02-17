@@ -8,7 +8,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Link from "next/link";
-import useCustomShowQuery from "@/pages/queries/getOneQuery";
 import useStore from "@/store/useStore";
 
 const useStyles = makeStyles({
@@ -29,6 +28,10 @@ export default function Product() {
     style: "currency",
     currency: "KES",
   });
+
+  const addToCart = useStore((state) => state.addToCart);
+
+  const addToWishList = useStore((state) => state.addToWishList);
 
   const currentProduct = useStore((state) => state.currentProduct);
 
@@ -62,7 +65,11 @@ export default function Product() {
         </Link>
 
         {/* favorite */}
-        <span>
+        <span
+          onClick={() => {
+            addToWishList(currentProduct);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -108,7 +115,7 @@ export default function Product() {
           {loaded ? currentProduct?.name : ""}
         </p>
         <div className="mt-3 flex items-center gap-2">
-          <p className="">4.0</p>
+          <p className="">{loaded ? currentProduct?.rating : 5}</p>
           {/* star rating */}
           <span className="flex">
             <Rating
@@ -200,7 +207,13 @@ export default function Product() {
       </div>
       {/* buttons */}
       <div className="grid w-full grid-cols-2 gap-3 py-8">
-        <Button variant="outlined" startIcon={<AddShoppingCartIcon />}>
+        <Button
+          variant="outlined"
+          startIcon={<AddShoppingCartIcon />}
+          onClick={() => {
+            addToCart(currentProduct);
+          }}
+        >
           Add to cart
         </Button>
         <Button

@@ -1,21 +1,21 @@
 export type Product = {
   id: number;
   name: string;
-  description: string | null | undefined;
+  description?: string;
   price: number;
-  rating: number | null | undefined;
+  rating: number;
   image_url: string;
   size: string;
-  reviews: ProductReview[] | null | undefined;
+  reviews?: ProductReview[];
   categoryId: number;
-  discountId: number | null | undefined;
+  discountId?: number;
 };
 
 export type ProductCategory = {
   id: number;
   name: string;
   code: string;
-  products: Product[] | null | undefined;
+  products?: Product[]
 };
 
 export type ProductReview = {
@@ -23,7 +23,7 @@ export type ProductReview = {
   productId: number;
   userId: number;
   rating: number;
-  description: string | null | undefined;
+  description?: string
 };
 
 export type ProductInventory = {
@@ -44,8 +44,8 @@ export type Address = {
   id: number;
   userId: number;
   phone1: string;
-  phone2: string | null | undefined;
-  station: string | null | undefined;
+  phone2?: string
+  station: string
 };
 
 export type Orders = {
@@ -77,5 +77,5 @@ export type User = {
   name: string;
   email: string;
   phone: string;
-  image: string | null | undefined;
+  image?: string
 };

@@ -3,13 +3,13 @@ import { ProductReview } from "./productReview.model";
 export interface Product {
   id: number;
   name: string;
-  description?: string | null | undefined;
+  description?: string;
   price: number;
-  rating?: number | null | undefined;
+  rating?: number;
   image_url?: string;
   quantity?: number;
   size: string;
-  reviews?: ProductReview[] | null | undefined;
+  reviews?: ProductReview[];
   categoryId: number;
-  discountId?: number | null | undefined;
+  discountId?: number;
 }

@@ -1,10 +1,11 @@
 import { Product } from "@/server/models/product.model";
-import { ProductCategory } from "@/type";
+import { productCategory } from "@/server/models/productCategory.model";
+
 import axios from "axios";
 import { useQuery, QueryOptions } from "react-query";
 
 type QueryResult<T> = {
-  data: T | undefined | ProductCategory[] | Product[];
+  data: T | undefined | productCategory[] | Product[];
   isLoading: boolean;
   error: unknown;
   fetchData: () => Promise<void>;

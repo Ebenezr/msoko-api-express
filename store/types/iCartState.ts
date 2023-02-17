@@ -1,5 +1,7 @@
 // import { Product } from "@/server/models/product.model";
 
+import { ProductReview } from "@/server/models/productReview.model";
+
 interface Product {
   id: number;
   name: string;
@@ -9,7 +11,7 @@ interface Product {
   rating?: number;
   image_url?: string;
   size: string;
-  reviews?: [];
+  reviews?: ProductReview[];
   categoryId: number;
   discountId?: number;
 }

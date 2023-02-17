@@ -1,16 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Product, ProductCategory } from "@/type";
 import React, { useState, useEffect } from "react";
 import useCustomQuery from "../../pages/queries/getQuery";
 import styles from "../Page.module.css";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import IconButton from "@mui/material/IconButton";
 import Head from "next/head";
 import useCustomShowQuery from "@/pages/queries/getOneQuery";
-import { productCategory } from "@/server/models/productCategory.model";
 import useStore from "../../store/useStore";
+import { Product } from "@/server/models/product.model";
+import { productCategory } from "@/server/models/productCategory.model";
 
 const KES = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -93,7 +90,7 @@ const HomePage = () => {
                   {isLoading ? (
                     <div>Fetching</div>
                   ) : categories instanceof Array ? (
-                    categories?.map((prod: ProductCategory) => (
+                    categories?.map((prod: productCategory) => (
                       <div key={prod.id} className=" group inline-block">
                         <div className="shrink-0 px-3 flex flex-col justify-center gap-2 ">
                           {/* image */}

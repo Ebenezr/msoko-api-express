@@ -22,6 +22,7 @@ export default function Cart() {
   const subTotal = useStore((state) => state.total);
   const totalQty = useStore((state) => state.totalQty);
   const removeFromCart = useStore((state) => state.removeFromCart);
+  const updateCartQuantity = useStore((state) => state.updateCartQuantity);
   // prevent hydration error(zustand persist)
   useEffect(() => {
     setLoaded(true);
@@ -84,7 +85,12 @@ export default function Cart() {
                 {/* quantity */}
                 <div className="align-center flex h-full w-full flex-col justify-center px-2">
                   <div className=" grid h-1/2 w-full grid-cols-3 overflow-hidden rounded-full  border-[1px] border-primary/75 px-2 ">
-                    <IconButton aria-label="minus">
+                    <IconButton
+                      aria-label="minus"
+                      onClick={() => {
+                        updateCartQuantity(item.id, -1);
+                      }}
+                    >
                       <RemoveIcon />
                     </IconButton>
                     <input
@@ -93,7 +99,12 @@ export default function Cart() {
                       disabled
                       value={item?.quantity}
                     />
-                    <IconButton aria-label="add">
+                    <IconButton
+                      aria-label="add"
+                      onClick={() => {
+                        updateCartQuantity(item.id, 1);
+                      }}
+                    >
                       <AddIcon />
                     </IconButton>
                   </div>

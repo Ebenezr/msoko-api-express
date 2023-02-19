@@ -1,3 +1,4 @@
+import useCustomQuery from "@/pages/queries/getQuery";
 import { Inter } from "@next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });

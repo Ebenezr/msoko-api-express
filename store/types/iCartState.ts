@@ -21,7 +21,8 @@ interface CartState {
   cartContent: Product[];
   addToCart: (params: Product) => void;
   updateCart: (params: { params: Product; myCart: Product[] }) => void;
-  updateCartQuantity: (productId: number, newQuantity: number) => void;
+  addCartQuantity: (productId: number) => void;
+  reduceCartQuantity: (productId: number) => void;
   clearCart: () => void;
   removeFromCart: (params: Product) => void;
 }

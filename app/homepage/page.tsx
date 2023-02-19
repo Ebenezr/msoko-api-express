@@ -8,12 +8,14 @@ import useCustomShowQuery from "@/pages/queries/getOneQuery";
 import useStore from "../../store/useStore";
 import { Product } from "@/server/models/product.model";
 import { productCategory } from "@/server/models/productCategory.model";
+import axios from "axios";
+import { useQuery } from "react-query";
 
 const KES = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "KES",
 });
-
+``;
 const HomePage = () => {
   const router = useRouter();
   const [cartId, setCatId] = useState<number>(1);
@@ -21,12 +23,27 @@ const HomePage = () => {
 
   const setCurrentProduct = useStore((state) => state.setCurrentProduct);
 
+  function fetchItems() {
+    return axios
+      .get(`${process.env.BASE_URL}/api/getProducts`)
+      .then((res) => res.data);
+  }
+
+  function Itemsl() {
+    const { data } = useQuery("mylist", fetchItems);
+    console.log(data);
+  }
+
+  // const { data: items } = useCustomQuery(
+  //   `${process.env.BASE_URL}/api/getProducts`
+  // );
+
   const { data: catProd, fetchData } = useCustomShowQuery(
     "http://localhost:5000/api/category",
     cartId
   );
   const { data: product, fetchData: fetchProduct } = useCustomShowQuery(
-    "http://localhost:5000/api/product",
+    "/api/getProduct",
     productId
   );
 

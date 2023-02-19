@@ -22,7 +22,8 @@ export default function Cart() {
   const subTotal = useStore((state) => state.total);
   const totalQty = useStore((state) => state.totalQty);
   const removeFromCart = useStore((state) => state.removeFromCart);
-  const updateCartQuantity = useStore((state) => state.updateCartQuantity);
+  const addCartQuantity = useStore((state) => state.addCartQuantity);
+  const reduceCartQuantity = useStore((state) => state.reduceCartQuantity);
   // prevent hydration error(zustand persist)
   useEffect(() => {
     setLoaded(true);
@@ -62,7 +63,7 @@ export default function Cart() {
       {/* items */}
       {loaded ? (
         cartList.map((item) => (
-          <div key={item.id} className="my-3 w-full flex-1  py-2">
+          <div key={item?.id} className="my-3 w-full flex-1  py-2">
             <div className="align-center flex w-full py-4">
               <div className="grid place-items-center  ">
                 <Checkbox
@@ -88,7 +89,7 @@ export default function Cart() {
                     <IconButton
                       aria-label="minus"
                       onClick={() => {
-                        updateCartQuantity(item.id, -1);
+                        reduceCartQuantity(item?.id);
                       }}
                     >
                       <RemoveIcon />
@@ -102,7 +103,7 @@ export default function Cart() {
                     <IconButton
                       aria-label="add"
                       onClick={() => {
-                        updateCartQuantity(item.id, 1);
+                        addCartQuantity(item?.id);
                       }}
                     >
                       <AddIcon />

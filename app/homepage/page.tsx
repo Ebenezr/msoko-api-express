@@ -34,10 +34,6 @@ const HomePage = () => {
     console.log(data);
   }
 
-  // const { data: items } = useCustomQuery(
-  //   `${process.env.BASE_URL}/api/getProducts`
-  // );
-
   const { data: catProd, fetchData } = useCustomShowQuery(
     "http://localhost:5000/api/category",
     cartId

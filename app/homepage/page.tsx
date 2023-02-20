@@ -6,8 +6,7 @@ import styles from "../Page.module.css";
 import Head from "next/head";
 import useCustomShowQuery from "@/pages/queries/getOneQuery";
 import useStore from "../../store/useStore";
-import { Product } from "@/server/models/product.model";
-import { productCategory } from "@/server/models/productCategory.model";
+import { Product, productCategory } from "@/type";
 
 const KES = new Intl.NumberFormat("en-US", {
   style: "currency",

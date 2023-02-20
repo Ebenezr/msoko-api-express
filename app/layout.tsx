@@ -7,6 +7,7 @@ import styles from "./Page.module.css";
 import { Montserrat } from "@next/font/google";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Head from "next/head";
+import { useRouter } from "next/navigation";
 
 const queryClient = new QueryClient();
 const montserrat = Montserrat({
@@ -19,6 +20,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [currentRoute, setCurrentRoute] = useState("/");
   const [isMobile, setIsMobile] = useState(false);
   const [isIpad, setIsIpad] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -34,7 +36,7 @@ export default function RootLayout({
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
-      <Head >
+      <Head>
         <title>Kapa Store</title>
         <meta property="og:title" content="Kapa oil ltd" key="title" />
       </Head>

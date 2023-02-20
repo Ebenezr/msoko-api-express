@@ -193,21 +193,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-export function categoryCard(prod: any, setCatId: any, fetchData: any) {
-  return (
-    <div className="shrink-0 px-3 flex flex-col justify-center gap-2 ">
-      {/* image */}
-      <div
-        className="w-28 h-16 w-full rounded-md bg-white group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"
-        onClick={() => {
-          setCatId(prod.id);
-          fetchData();
-        }}
-      ></div>
-      <p className="text-center font-semibold grow-0 group-hover:text-primary text-xs whitespace-nowrap group-focus:text-primary">
-        {prod.name}
-      </p>
-    </div>
-  );
-}

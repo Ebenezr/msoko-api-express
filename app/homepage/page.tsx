@@ -13,7 +13,7 @@ const KES = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "KES",
 });
-``;
+
 const HomePage = () => {
   const router = useRouter();
   const [cartId, setCatId] = useState<number>(1);
@@ -36,6 +36,14 @@ const HomePage = () => {
     data: categories,
     error,
   } = useCustomQuery("http://localhost:5000/api/categories");
+
+  // async function getUsers() {
+  //   const res = await fetch(`${process.env.BASE_URL}/api/getUsers`);
+  //   if (!res.ok) {
+  //     console.log("🚀 ~ file: page.tsx:8 ~ getUsers ~ res", res);
+  //   }
+  //   return res.json();
+  // }
 
   return (
     <>

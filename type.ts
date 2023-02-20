@@ -1,36 +1,37 @@
-export type Product = {
+export interface Product {
   id: number;
   name: string;
   description?: string;
   price: number;
-  rating: number;
-  image_url: string;
+  rating?: number;
+  image_url?: string;
+  quantity?: number;
   size: string;
   reviews?: ProductReview[];
   categoryId: number;
   discountId?: number;
-};
+}
 
-export type ProductCategory = {
+export interface productCategory {
   id: number;
   name: string;
-  code: string;
-  products?: Product[]
-};
+  description: string;
+  products: Product[];
+}
 
-export type ProductReview = {
+export interface ProductReview {
   id: number;
   productId: number;
   userId: number;
   rating: number;
-  description?: string
-};
+  description: string | null;
+}
 
-export type ProductInventory = {
+export interface ProductInventory {
   id: number;
   productId: number;
   quantity: number;
-};
+}
 
 export type ProductDiscount = {
   id: number;
@@ -40,15 +41,15 @@ export type ProductDiscount = {
   code: string;
 };
 
-export type Address = {
+export interface Address {
   id: number;
   userId: number;
-  phone1: string;
-  phone2?: string
-  station: string
-};
+  phone1: string | null;
+  phone2?: string | null;
+  station: string | null;
+}
 
-export type Orders = {
+export interface Orders {
   id: number;
   userId: number;
   productPaymentId: number;
@@ -56,26 +57,26 @@ export type Orders = {
   // TODO :make enum
   status: string;
   amount: number;
-};
+}
 
-export type OrderList = {
+export interface OrderList {
   id: number;
   productId: number;
   orderId: number;
-};
+}
 
-export type productPayment = {
+export interface Payment {
   id: number;
   provider: string;
   acc_number: string;
   userId: number;
-};
+}
 
 // user
-export type User = {
+export interface User {
   id: number;
   name: string;
   email: string;
   phone: string;
-  image?: string
-};
+  image: string | null;
+}

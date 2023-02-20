@@ -1,4 +1,3 @@
-import { ProductCategory } from "@/type";
 import { NextFunction, Request, Response, Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import { productCategory } from "../models/productCategory.model";

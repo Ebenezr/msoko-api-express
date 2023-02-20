@@ -1,0 +1,6 @@
+## Get all patients
+GET  http://localhost:5000/api/v1/patients
+
+
+## Get all admins
+GET  http://localhost:5000/api/v1/admins

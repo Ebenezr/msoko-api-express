@@ -43,6 +43,7 @@
     "react-dom": "18.2.0",
     "react-query": "^3.39.3",
     "react-responsive-carousel": "^3.2.23",
+    "react-shimmer-skeleton": "^1.0.3",
     "redis": "^4.6.4",
     "response-time": "^2.3.2",
     "typescript": "^4.9.5",

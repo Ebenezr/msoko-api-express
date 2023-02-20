@@ -8,8 +8,6 @@ import useCustomShowQuery from "@/pages/queries/getOneQuery";
 import useStore from "../../store/useStore";
 import { Product } from "@/server/models/product.model";
 import { productCategory } from "@/server/models/productCategory.model";
-import axios from "axios";
-import { useQuery } from "react-query";
 
 const KES = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -19,48 +17,25 @@ const KES = new Intl.NumberFormat("en-US", {
 const HomePage = () => {
   const router = useRouter();
   const [cartId, setCatId] = useState<number>(1);
-  const [productId, setProductId] = useState<number>(1);
 
   const setCurrentProduct = useStore((state) => state.setCurrentProduct);
 
-  function fetchItems() {
-    return axios
-      .get(`${process.env.BASE_URL}/api/getProducts`)
-      .then((res) => res.data);
-  }
-
-  function Itemsl() {
-    const { data } = useQuery("mylist", fetchItems);
-    console.log(data);
-  }
-
-  const { data: catProd, fetchData } = useCustomShowQuery(
-    "http://localhost:5000/api/category",
-    cartId
-  );
-  const { data: product, fetchData: fetchProduct } = useCustomShowQuery(
-    "/api/getProduct",
-    productId
-  );
+  const {
+    data: catProd,
+    fetchData,
+    isLoading: prodLoading,
+  } = useCustomShowQuery("http://localhost:5000/api/category", cartId);
 
   // call fetchData when cartId changes
   useEffect(() => {
     fetchData();
   }, [cartId, fetchData]);
 
-  useEffect(() => {
-    fetchProduct();
-  }, [productId, fetchProduct]);
-
   const {
-    isLoading,
+    isLoading: catLoading,
     data: categories,
     error,
   } = useCustomQuery("http://localhost:5000/api/categories");
-
-  const { data: products } = useCustomQuery(
-    "http://localhost:5000/api/products"
-  );
 
   return (
     <>
@@ -100,13 +75,35 @@ const HomePage = () => {
               >
                 <div className="flex flex-nowrap">
                   {/* card */}
-                  {isLoading ? (
-                    <div>Fetching</div>
+                  {catLoading ? (
+                    // fetch animation
+                    <div className="flex">
+                      <div className=" group inline-block ">
+                        <div className="shrink-0 px-3 flex flex-col justify-center gap-2 ">
+                          <div className="animate-pulse w-28 h-16 w-full rounded-md bg-slate-300 group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"></div>
+                          <div className="animate-pulse bg-slate-300 w-full h-4 rounded-full"></div>
+                        </div>
+                      </div>
+                      <div className=" group inline-block ">
+                        <div className="shrink-0 px-3 flex flex-col justify-center gap-2 ">
+                          <div className="animate-pulse w-28 h-16 w-full rounded-md bg-slate-300 group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"></div>
+                          <div className="animate-pulse bg-slate-300 w-full h-4 rounded-full"></div>
+                        </div>
+                      </div>
+                      <div className=" group inline-block ">
+                        <div className="shrink-0 px-3 flex flex-col justify-center gap-2 ">
+                          <div className="animate-pulse w-28 h-16 w-full rounded-md bg-slate-300 group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"></div>
+                          <div className="animate-pulse bg-slate-300 w-full h-4 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
                   ) : categories instanceof Array ? (
                     categories?.map((prod: productCategory) => (
                       <div key={prod.id} className=" group inline-block">
+                        {/* make skeleton of this */}
                         <div className="shrink-0 px-3 flex flex-col justify-center gap-2 ">
                           {/* image */}
+
                           <div
                             className="w-28 h-16 w-full rounded-md bg-white group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"
                             onClick={() => {
@@ -133,16 +130,33 @@ const HomePage = () => {
               className={`${styles.no_scrollbar} flex overflow-x-scroll hide-scroll-bar w-full `}
             >
               <div className="flex flex-nowrap w-full p-4">
-                {isLoading ? (
-                  <div>Fetching</div>
+                {prodLoading ? (
+                  <div className="flex">
+                    <div className="px-3 shrink-0 inline-block text-left w-28 flex flex-col cursor-pointer space-y-2 ">
+                      <div className="w-full h-20 shrink-0 bg-slate-300 "></div>
+                      <div className="animate-pulse bg-slate-300 w-full h-4 rounded-full"></div>
+                      <div className="animate-pulse bg-slate-300 w-2/3 h-4 rounded-full"></div>
+                      <div className="animate-pulse bg-slate-300 w-2/3 h-4 rounded-full"></div>
+                    </div>
+                    <div className="px-3 shrink-0 inline-block text-left w-28 flex flex-col cursor-pointer space-y-2 ">
+                      <div className="w-full h-20 shrink-0 bg-slate-300 "></div>
+                      <div className="animate-pulse bg-slate-300 w-full h-4 rounded-full"></div>
+                      <div className="animate-pulse bg-slate-300 w-2/3 h-4 rounded-full"></div>
+                      <div className="animate-pulse bg-slate-300 w-2/3 h-4 rounded-full"></div>
+                    </div>
+                    <div className="px-3 shrink-0 inline-block text-left w-28 flex flex-col cursor-pointer space-y-2 ">
+                      <div className="w-full h-20 shrink-0 bg-slate-300 "></div>
+                      <div className="animate-pulse bg-slate-300 w-full h-4 rounded-full"></div>
+                      <div className="animate-pulse bg-slate-300 w-2/3 h-4 rounded-full"></div>
+                      <div className="animate-pulse bg-slate-300 w-2/3 h-4 rounded-full"></div>
+                    </div>
+                  </div>
                 ) : catProd instanceof Array ? (
                   catProd?.map((prod: Product) => (
                     <div
                       key={prod.id}
                       className="px-3 shrink-0 inline-block text-left w-28 flex flex-col cursor-pointer"
                       onClick={() => {
-                        setProductId(prod.id);
-                        fetchProduct();
                         setCurrentProduct(prod);
                         router.push("/products");
                       }}
@@ -171,3 +185,21 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+export function categoryCard(prod: any, setCatId: any, fetchData: any) {
+  return (
+    <div className="shrink-0 px-3 flex flex-col justify-center gap-2 ">
+      {/* image */}
+      <div
+        className="w-28 h-16 w-full rounded-md bg-white group-hover:border-2 group-hover:border-primary group-hover:shadow-md group-focus:border-2 group-focus:border-primary group-focus:shadow-md"
+        onClick={() => {
+          setCatId(prod.id);
+          fetchData();
+        }}
+      ></div>
+      <p className="text-center font-semibold grow-0 group-hover:text-primary text-xs whitespace-nowrap group-focus:text-primary">
+        {prod.name}
+      </p>
+    </div>
+  );
+}

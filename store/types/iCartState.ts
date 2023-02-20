@@ -6,7 +6,7 @@ export interface Product {
   id: number;
   name: string;
   price: number;
-  quantity?: number;
+  quantity: number;
   description?: string;
   rating?: number;
   image_url?: string;
@@ -21,8 +21,8 @@ interface CartState {
   cartContent: Product[];
   addToCart: (params: Product) => void;
   updateCart: (params: { params: Product; myCart: Product[] }) => void;
-  addCartQuantity: (productId: number) => void;
-  reduceCartQuantity: (productId: number) => void;
+  addCartQuantity: (params: { id: number }) => void;
+  reduceCartQuantity: (params: { id: number }) => void;
   clearCart: () => void;
   removeFromCart: (params: Product) => void;
 }

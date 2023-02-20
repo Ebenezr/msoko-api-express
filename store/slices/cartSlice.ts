@@ -63,104 +63,62 @@ const useCart: StateCreator<CartState> = (set, get) => ({
       cartContent: myCart,
     }));
   },
-  addCartQuantity: (productId: number) => {
+  addCartQuantity: (params: { id: number }) => {
     set((state) => {
-      // Find the product in the cart
-      const productIndex = state.cartContent.findIndex(
-        (product) => product.id === productId
+      const updatedCartContent = state.cartContent.map((item) => {
+        if (item.id === params.id) {
+          const updatedItem = {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+          updatedItem.price = updatedItem.price * updatedItem.quantity;
+          return updatedItem;
+        }
+        return item;
+      });
+      const total = updatedCartContent.reduce(
+        (acc, item) => acc + item.price,
+        0
       );
-      if (productIndex === -1) {
-        // Product not found in cart, return the current state
-        return state;
-      }
-
-      // Get the current quantity of the product
-
-      const currentQuantity = state.cartContent[productIndex].quantity || 0;
-      // Calculate the change in quantity
-      const quantityChange = currentQuantity + 1;
-
-      // Calculate the new total price and quantity
-      const price = state.cartContent[productIndex].price;
-      const totalQty = state.totalQty + quantityChange;
-      const total = state.total + price * quantityChange;
-
-      if (totalQty <= 0) {
-        // Remove the product from the cart if the new quantity is 0 or less
-        const newCartContent = state.cartContent.filter(
-          (product) => product.id !== productId
-        );
-        return {
-          ...state,
-          totalQty,
-          total,
-          cartContent: newCartContent,
-        };
-      } else {
-        // Update the quantity of the product
-        const updatedProduct = {
-          ...state.cartContent[productIndex],
-          quantity: totalQty,
-        };
-        const updatedCartContent = [...state.cartContent];
-        updatedCartContent[productIndex] = updatedProduct;
-        return {
-          ...state,
-          totalQty,
-          total,
-          cartContent: updatedCartContent,
-        };
-      }
+      const totalQty = updatedCartContent.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      );
+      return {
+        ...state,
+        cartContent: updatedCartContent,
+        total,
+        totalQty,
+      };
     });
   },
-  reduceCartQuantity: (productId: number) => {
+  reduceCartQuantity: (params: { id: number }) => {
     set((state) => {
-      // Find the product in the cart
-      const productIndex = state.cartContent.findIndex(
-        (product) => product.id === productId
+      const updatedCartContent = state.cartContent.map((item) => {
+        if (item.id === params.id) {
+          const updatedItem = {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+          updatedItem.price = updatedItem.price * updatedItem.quantity;
+          return updatedItem;
+        }
+        return item;
+      });
+      const total = updatedCartContent.reduce(
+        (acc, item) => acc + item.price,
+        0
       );
-      if (productIndex === -1) {
-        // Product not found in cart, return the current state
-        return state;
-      }
-
-      // Get the current quantity of the product
-
-      const currentQuantity = state.cartContent[productIndex].quantity || 0;
-      // Calculate the change in quantity
-      const quantityChange = currentQuantity - 1;
-
-      // Calculate the new total price and quantity
-      const price = state.cartContent[productIndex].price;
-      const totalQty = state.totalQty + quantityChange;
-      const total = state.total + price * quantityChange;
-
-      if (totalQty <= 0) {
-        // Remove the product from the cart if the new quantity is 0 or less
-        const newCartContent = state.cartContent.filter(
-          (product) => product.id !== productId
-        );
-        return {
-          ...state,
-          totalQty,
-          total,
-          cartContent: newCartContent,
-        };
-      } else {
-        // Update the quantity of the product
-        const updatedProduct = {
-          ...state.cartContent[productIndex],
-          quantity: totalQty,
-        };
-        const updatedCartContent = [...state.cartContent];
-        updatedCartContent[productIndex] = updatedProduct;
-        return {
-          ...state,
-          totalQty,
-          total,
-          cartContent: updatedCartContent,
-        };
-      }
+      const totalQty = updatedCartContent.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      );
+      return {
+        ...state,
+        cartContent: updatedCartContent,
+        total,
+        totalQty,
+      };
     });
   },
 });

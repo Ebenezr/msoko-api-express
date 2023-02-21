@@ -1,6 +1,6 @@
 // import { Product } from "@/server/models/product.model";
 
-import { ProductReview } from "@/server/models/productReview.model";
+import { ProductReview } from "@/type";
 
 export interface Product {
   id: number;
@@ -21,10 +21,10 @@ interface CartState {
   cartContent: Product[];
   addToCart: (params: Product) => void;
   updateCart: (params: { params: Product; myCart: Product[] }) => void;
-  addCartQuantity: (params: { id: number }) => void;
   reduceCartQuantity: (params: { id: number }) => void;
   clearCart: () => void;
   removeFromCart: (params: Product) => void;
+  getTotals: () => void;
 }
 
 export default CartState;

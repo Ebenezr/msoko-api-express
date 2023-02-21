@@ -22,10 +22,12 @@ export default function Cart() {
   const subTotal = useStore((state) => state.total);
   const totalQty = useStore((state) => state.totalQty);
   const removeFromCart = useStore((state) => state.removeFromCart);
-  const addCartQuantity = useStore((state) => state.addCartQuantity);
+  const addCartQuantity = useStore((state) => state.addToCart);
   const reduceCartQuantity = useStore((state) => state.reduceCartQuantity);
+  const getTotals = useStore((state) => state.getTotals);
   // prevent hydration error(zustand persist)
   useEffect(() => {
+    getTotals();
     setLoaded(true);
   }, [cartList]);
 
@@ -89,7 +91,7 @@ export default function Cart() {
                     <IconButton
                       aria-label="minus"
                       onClick={() => {
-                        reduceCartQuantity(item?.id);
+                        reduceCartQuantity(item);
                       }}
                     >
                       <RemoveIcon />
@@ -103,7 +105,7 @@ export default function Cart() {
                     <IconButton
                       aria-label="add"
                       onClick={() => {
-                        addCartQuantity(item?.id);
+                        addCartQuantity(item);
                       }}
                     >
                       <AddIcon />

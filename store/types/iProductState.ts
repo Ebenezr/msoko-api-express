@@ -1,5 +1,5 @@
-import { Product } from "@/server/models/product.model";
-import { productCategory } from "@/server/models/productCategory.model";
+import { productCategory } from "@/type";
+import { Product } from "./iCartState";
 
 interface ProductState {
   currentProduct: Product;

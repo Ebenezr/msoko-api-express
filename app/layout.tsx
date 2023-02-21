@@ -7,7 +7,9 @@ import styles from "./Page.module.css";
 import { Montserrat } from "@next/font/google";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Head from "next/head";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient();
 const montserrat = Montserrat({
@@ -20,7 +22,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [currentRoute, setCurrentRoute] = useState("/");
+  const pathname = usePathname();
+  const isLoginPage = pathname;
   const [isMobile, setIsMobile] = useState(false);
   const [isIpad, setIsIpad] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -41,6 +44,7 @@ export default function RootLayout({
         <meta property="og:title" content="Kapa oil ltd" key="title" />
       </Head>
       <QueryClientProvider client={queryClient} contextSharing={true}>
+        <ToastContainer />
         <body
           className={`font-montserrat bg-bg ${
             isMobile
@@ -52,9 +56,9 @@ export default function RootLayout({
               : styles.mobileContainer
           }`}
         >
-          <Header />
+          {!isLoginPage && <Header />}
           <main>{children}</main>
-          <Footer />
+          {!isLoginPage && <Footer />}
         </body>
       </QueryClientProvider>
     </html>

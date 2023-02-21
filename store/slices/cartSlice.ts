@@ -1,3 +1,4 @@
+import { toNamespacedPath } from "path";
 import { StateCreator } from "zustand";
 import CartState, { Product } from "../types/iCartState";
 
@@ -63,61 +64,47 @@ const useCart: StateCreator<CartState> = (set, get) => ({
       cartContent: myCart,
     }));
   },
-  addCartQuantity: (params: { id: number }) => {
+  reduceCartQuantity: (params: { id: number }) => {
     set((state) => {
-      const updatedCartContent = state.cartContent.map((item) => {
-        if (item.id === params.id) {
-          const updatedItem = {
-            ...item,
-            quantity: item.quantity + 1,
-          };
-          updatedItem.price = updatedItem.price * updatedItem.quantity;
-          return updatedItem;
-        }
-        return item;
-      });
-      const total = updatedCartContent.reduce(
-        (acc, item) => acc + item.price,
-        0
+      const ProductIndex = state.cartContent.findIndex(
+        (product) => product.id === params.id
       );
-      const totalQty = updatedCartContent.reduce(
-        (acc, item) => acc + item.quantity,
-        0
-      );
+
+      if (state.cartContent[ProductIndex].quantity > 1) {
+        state.cartContent[ProductIndex].quantity -= 1;
+      } else if (state.cartContent[ProductIndex].quantity === 1) {
+        const nextCartContent = state.cartContent.filter(
+          (cartItem) => cartItem.id !== params.id
+        );
+        state.cartContent = nextCartContent;
+      }
+
       return {
         ...state,
-        cartContent: updatedCartContent,
-        total,
-        totalQty,
+        cartContent: state.cartContent,
       };
     });
   },
-  reduceCartQuantity: (params: { id: number }) => {
+  getTotals: () => {
     set((state) => {
-      const updatedCartContent = state.cartContent.map((item) => {
-        if (item.id === params.id) {
-          const updatedItem = {
-            ...item,
-            quantity: item.quantity - 1,
-          };
-          updatedItem.price = updatedItem.price * updatedItem.quantity;
-          return updatedItem;
+      let { total, quantity } = state.cartContent.reduce(
+        (cartTotal, cartItem) => {
+          const { price, quantity } = cartItem;
+          const itemTotal = price * quantity;
+          cartTotal.total += itemTotal;
+          cartTotal.quantity += quantity;
+
+          return cartTotal;
+        },
+        {
+          total: 0,
+          quantity: 0,
         }
-        return item;
-      });
-      const total = updatedCartContent.reduce(
-        (acc, item) => acc + item.price,
-        0
-      );
-      const totalQty = updatedCartContent.reduce(
-        (acc, item) => acc + item.quantity,
-        0
       );
       return {
         ...state,
-        cartContent: updatedCartContent,
-        total,
-        totalQty,
+        total: total,
+        totalQty: quantity,
       };
     });
   },

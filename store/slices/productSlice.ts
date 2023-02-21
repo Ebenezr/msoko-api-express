@@ -1,7 +1,5 @@
-import { StateCreator, create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-
-import { Product } from "@/server/models/product.model";
+import { StateCreator } from "zustand";
+import { Product } from "../types/iCartState";
 import ProductState from "../types/iProductState";
 
 const useProdStore: StateCreator<ProductState> = (set, get) => ({
@@ -12,6 +10,7 @@ const useProdStore: StateCreator<ProductState> = (set, get) => ({
     price: 0,
     rating: 5,
     image_url: "",
+    quantity: 0,
     size: "",
     reviews: [],
     categoryId: 1,

@@ -1,5 +1,15 @@
 version: "3.9"
 services:
+  api:
+    build: ./
+    container_name: prisma-server-api
+    depends_on:
+      - postgres
+    ports:
+      - "5000:5000"
+    restart: always
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/mydb?schema=public"
   postgres:
     image: postgres:14.1-alpine
     container_name: postgres

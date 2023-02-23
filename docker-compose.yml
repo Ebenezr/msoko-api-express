@@ -24,7 +24,16 @@ services:
       - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
 
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redisDB:/data
+
 volumes:
   postgres-data:
     driver: local
+  redisDB:
 

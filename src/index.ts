@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import redisClient from "./utils/connectRedis";
+import validateEnv from "./utils/validateEnv";
 
 import userRouter from "./controllers/user.controller";
 import productRouter from "./controllers/product.controller";
@@ -14,15 +16,10 @@ const responseTime = require("response-time");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
+validateEnv();
 // set up swagger
 const swaggerUi = require("swagger-ui-express"),
   swaggerDocument = require("../swagger.json");
-
-// redis
-const redis = require("redis");
-const REDIS_PORT = process.env.PORT || 6379;
-
-const client = redis.createClient(REDIS_PORT);
 
 const express = require("express");
 const app = express();
@@ -40,20 +37,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 // setup cors
 app.use(cors());
-
-// cache middleware
-// function cache(req: Request, res: Response, next: NextFunction) {
-//   const { username } = req.params;
-
-//   client.get(username, (err: any, data: any) => {
-//     if (err) throw err;
-//     if (data !== null) {
-//       res.send(seResponse(username, data));
-//     } else {
-//       next();
-//     }
-//   });
-// }
 
 // routes
 app.use("/api", userRouter);

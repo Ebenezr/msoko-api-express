@@ -80,3 +80,15 @@ export interface User {
   phone: string;
   image: string | null;
 }
+
+
+export interface County{
+  name: string;
+  id: number;
+}
+
+export interface Town{
+ id: number;
+  name: string;
+  countyId: number;
+}

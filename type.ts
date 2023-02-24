@@ -44,9 +44,12 @@ export type ProductDiscount = {
 export interface Address {
   id: number;
   userId: number;
-  phone1: string | null;
-  phone2?: string | null;
-  station: string | null;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  county: number;
+  town: number;
+  default: boolean;
 }
 
 export interface Orders {
@@ -81,14 +84,14 @@ export interface User {
   image: string | null;
 }
 
-
-export interface County{
+export interface County {
   name: string;
   id: number;
+  shipmentFee: number;
 }
 
-export interface Town{
- id: number;
+export interface Town {
+  id: number;
   name: string;
   countyId: number;
 }

@@ -7,7 +7,7 @@ const router = Router();
 // ROUTES
 // create new county
 router.post(
-  "/countys",
+  "/counties",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await prisma.county.create({
@@ -56,7 +56,7 @@ router.patch(
 
 // fetch all countys
 router.get(
-  "/countys",
+  "/counties",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const countys = await prisma.county.findMany({

@@ -135,6 +135,19 @@ model Orders {
   OrderList        OrderList[]
 }
 
+model County {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  Town Town[]
+}
+
+model Town {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  county   County @relation(fields: [countyId], references: [id])
+  countyId Int
+}
+
 enum OrderStatus {
   PENDING
   COMPLETE

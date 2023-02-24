@@ -43,6 +43,94 @@ async function seed() {
     },
   });
 
+  const counties = [
+    { name: "Mombasa", id: 1 },
+    { name: "Kwale", id: 2 },
+    { name: "Kilifi", id: 3 },
+    { name: "Tana River", id: 4 },
+    { name: "Lamu", id: 5 },
+    { name: "Taita-Taveta", id: 6 },
+    { name: "Garissa", id: 7 },
+    { name: "Wajir", id: 8 },
+    { name: "Mandera", id: 9 },
+    { name: "Marsabit", id: 10 },
+    { name: "Isiolo", id: 11 },
+    { name: "Meru", id: 12 },
+    { name: "Tharaka-Nithi", id: 13 },
+    { name: "Embu", id: 14 },
+    { name: "Kitui", id: 15 },
+    { name: "Machakos", id: 16 },
+    { name: "Makueni", id: 17 },
+    { name: "Nyandarua", id: 18 },
+    { name: "Nyeri", id: 19 },
+    { name: "Kirinyaga", id: 20 },
+    { name: "Murang'a", id: 21 },
+    { name: "Kiambu", id: 22 },
+    { name: "Turkana", id: 23 },
+    { name: "West Pokot", id: 24 },
+    { name: "Samburu", id: 25 },
+    { name: "Trans Nzoia", id: 26 },
+    { name: "Uasin Gishu", id: 27 },
+    { name: "Elgeyo-Marakwet", id: 28 },
+    { name: "Nandi", id: 29 },
+    { name: "Baringo", id: 30 },
+    { name: "Laikipia", id: 31 },
+    { name: "Nakuru", id: 32 },
+    { name: "Narok", id: 33 },
+    { name: "Kajiado", id: 34 },
+    { name: "Kericho", id: 35 },
+    { name: "Bomet", id: 36 },
+    { name: "Kakamega", id: 37 },
+    { name: "Vihiga", id: 38 },
+    { name: "Bungoma", id: 39 },
+    { name: "Busia", id: 40 },
+    { name: "Siaya", id: 41 },
+    { name: "Kisumu", id: 42 },
+    { name: "Homa Bay", id: 43 },
+    { name: "Migori", id: 44 },
+    { name: "Kisii", id: 45 },
+    { name: "Nyamira", id: 46 },
+    { name: "Nairobi", id: 47 },
+  ];
+
+  for (const product of counties) {
+    await prisma.county.create({
+      data: product,
+    });
+  }
+  const towns = [
+    { id: 1, name: "Mombasa Town", countyId: 1 },
+    { id: 2, name: "Nyali", countyId: 1 },
+    { id: 3, name: "Ukunda", countyId: 2 },
+    { id: 4, name: "Lungalunga", countyId: 2 },
+    { id: 5, name: "Kilifi Town", countyId: 3 },
+    { id: 6, name: "Malindi", countyId: 3 },
+    { id: 7, name: "Voi", countyId: 4 },
+    { id: 8, name: "Taveta", countyId: 4 },
+    { id: 9, name: "Marsabit", countyId: 5 },
+    { id: 10, name: "Laisamis", countyId: 5 },
+    { id: 11, name: "Emali", countyId: 6 },
+    { id: 12, name: "Loitokitok", countyId: 6 },
+    { id: 13, name: "Kitui Town", countyId: 7 },
+    { id: 14, name: "Mwingi", countyId: 7 },
+    { id: 15, name: "Nakuru Town", countyId: 8 },
+    { id: 16, name: "Naivasha", countyId: 8 },
+    { id: 17, name: "Kericho Town", countyId: 9 },
+    { id: 18, name: "Bomet", countyId: 9 },
+    { id: 19, name: "Eldoret Town", countyId: 10 },
+    { id: 20, name: "Turbo", countyId: 10 },
+    { id: 21, name: "Kakamega Town", countyId: 11 },
+    { id: 22, name: "Lugari", countyId: 11 },
+    { id: 23, name: "Siaya Town", countyId: 12 },
+    { id: 24, name: "Bondo", countyId: 12 },
+    { id: 25, name: "Nairobi West", countyId: 47 },
+  ];
+
+  for (const product of towns) {
+    await prisma.town.create({
+      data: product,
+    });
+  }
   const cat = [
     {
       name: "MARGARINE",

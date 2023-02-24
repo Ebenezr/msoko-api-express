@@ -11,6 +11,8 @@ import orderRouter from "./controllers/order.controller";
 import orderListRouter from "./controllers/order_list.controller";
 import reviewsRouter from "./controllers/reviews.controller";
 import addressRouter from "./controllers/address.controller";
+import countyRouter from "./controllers/counties.controller";
+import townRouter from "./controllers/towns.controller";
 
 const responseTime = require("response-time");
 const dotenv = require("dotenv");
@@ -48,6 +50,8 @@ app.use("/api", orderRouter);
 app.use("/api", orderListRouter);
 app.use("/api", reviewsRouter);
 app.use("/api", addressRouter);
+app.use("/api", townRouter);
+app.use("/api", countyRouter);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

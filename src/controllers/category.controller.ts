@@ -1,7 +1,8 @@
+import cloudinary from "cloudinary";
 import { NextFunction, Request, Response, Router } from "express";
 import { PrismaClient } from "@prisma/client";
-import { productCategory } from "../models/productCategory.model";
-import { Product } from "../models/product.model";
+import cacheMiddleware, { redisClient } from "../middleware/redis.middleware";
+import multerMiddleware from "../middleware/multer.middleware";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -10,11 +11,15 @@ const router = Router();
 // create new category
 router.post(
   "/categories",
+  multerMiddleware.single("image"),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await prisma.productCategory.create({
-        data: { ...req.body },
-      });
+      const data = req.body;
+      if (req.file) {
+        const image = await cloudinary.v2.uploader.upload(req.file.path);
+        data.image_url = image.secure_url;
+      }
+      const result = await prisma.productCategory.create({ data });
       res.json(result);
     } catch (error) {
       next(error);
@@ -41,12 +46,18 @@ router.delete(
 // update category
 router.patch(
   "/category/:id",
+  multerMiddleware.single("image"),
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
+      const data = req.body;
+      if (req.file) {
+        const image = await cloudinary.v2.uploader.upload(req.file.path);
+        data.image_url = image.secure_url;
+      }
       const category = await prisma.productCategory.update({
         where: { id: Number(id) },
-        data: { ...req.body },
+        data: data,
       });
       res.json(category);
     } catch (error) {
@@ -58,6 +69,7 @@ router.patch(
 // fetch all category
 router.get(
   "/categories",
+
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const categories = await prisma.productCategory.findMany({
@@ -90,7 +102,7 @@ router.get(
           products: true,
         },
       });
-      const products = categories?.products || []; // extract the products array from the categories object
+      const products = categories?.products || [];
       res.json(products);
     } catch (error) {
       next(error);

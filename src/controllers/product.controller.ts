@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { PrismaClient } from "@prisma/client";
+import multerMiddleware from "../middleware/multer.middleware";
+import cloudinary from "cloudinary";
+import cacheMiddleware, { redisClient } from "../middleware/redis.middleware";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -8,13 +11,16 @@ const router = Router();
 // create new product
 router.post(
   "/products",
+  multerMiddleware.single("image"),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await prisma.product.create({
-        data: { ...req.body },
-      });
-
-      res.json(result);
+      const data = req.body;
+      if (req.file) {
+        const image = await cloudinary.v2.uploader.upload(req.file.path);
+        data.image_url = image.secure_url;
+      }
+      const product = await prisma.product.create({ data });
+      res.json(product);
     } catch (error) {
       next(error);
     }
@@ -40,12 +46,21 @@ router.delete(
 // update products
 router.patch(
   "/product/:id",
+  multerMiddleware.single("image"),
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
+      const data = req.body;
+      if (req.file) {
+        const image = await cloudinary.v2.uploader.upload(req.file.path);
+        data.image_url = image.secure_url;
+      }
+      // const product = await prisma.product.create({ data });
+      // res.json(product);
+
       const product = await prisma.product.update({
         where: { id: Number(id) },
-        data: { ...req.body },
+        data: data,
       });
       res.json(product);
     } catch (error) {

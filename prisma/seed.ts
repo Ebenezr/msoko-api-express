@@ -137,6 +137,8 @@ async function seed() {
     {
       name: "MARGARINE",
       code: "MG",
+      image_url:
+        "https://res.cloudinary.com/dbkeoqmg5/image/upload/v1677308674/eeksfq1fiipbstvkwvfz.png",
       products: {
         create: {
           name: "Prestige Margarine",
@@ -166,6 +168,8 @@ async function seed() {
     {
       name: "BAKING POWDER",
       code: "BKP",
+      image_url:
+        "https://res.cloudinary.com/dbkeoqmg5/image/upload/v1677308674/eeksfq1fiipbstvkwvfz.png",
       products: {
         create: {
           name: "Chapa Mandashi",
@@ -195,6 +199,8 @@ async function seed() {
     {
       name: "Noodles",
       code: "IND",
+      image_url:
+        "https://res.cloudinary.com/dbkeoqmg5/image/upload/v1677308674/eeksfq1fiipbstvkwvfz.png",
       products: {
         create: {
           name: "Numi",
@@ -224,6 +230,8 @@ async function seed() {
     {
       name: "Cooking Fat",
       code: "CF01",
+      image_url:
+        "https://res.cloudinary.com/dbkeoqmg5/image/upload/v1677308674/eeksfq1fiipbstvkwvfz.png",
       products: {
         create: {
           name: "Kasuku",
@@ -253,6 +261,8 @@ async function seed() {
     {
       name: "Vegetable Oil",
       code: "VB01",
+      image_url:
+        "https://res.cloudinary.com/dbkeoqmg5/image/upload/v1677308674/eeksfq1fiipbstvkwvfz.png",
       products: {
         create: {
           name: "Rina",

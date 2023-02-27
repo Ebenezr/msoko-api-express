@@ -15,6 +15,7 @@ export interface Product {
 export interface productCategory {
   id: number;
   name: string;
+  image_url: string;
   description: string;
   products: Product[];
 }

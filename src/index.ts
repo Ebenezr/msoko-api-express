@@ -1,19 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import redisClient from "./utils/connectRedis";
 import validateEnv from "./utils/validateEnv";
-
-import userRouter from "./controllers/user.controller";
-import productRouter from "./controllers/product.controller";
-import categoryRouter from "./controllers/category.controller";
-import inventoryRouter from "./controllers/inventory.controller";
-import discountRouter from "./controllers/discount.controller";
-import orderRouter from "./controllers/order.controller";
-import orderListRouter from "./controllers/order_list.controller";
-import reviewsRouter from "./controllers/reviews.controller";
-import addressRouter from "./controllers/address.controller";
-import countyRouter from "./controllers/counties.controller";
-import townRouter from "./controllers/towns.controller";
-
+import router from "./routes/routes";
+//
 const responseTime = require("response-time");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -39,19 +27,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 // setup cors
 app.use(cors());
-
-// routes
-app.use("/api", userRouter);
-app.use("/api", productRouter);
-app.use("/api", categoryRouter);
-app.use("/api", inventoryRouter);
-app.use("/api", discountRouter);
-app.use("/api", orderRouter);
-app.use("/api", orderListRouter);
-app.use("/api", reviewsRouter);
-app.use("/api", addressRouter);
-app.use("/api", townRouter);
-app.use("/api", countyRouter);
+app.use(router);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

@@ -13,7 +13,6 @@ RUN yarn build
 
 
 FROM node:latest AS production
-# Build the application
 
 WORKDIR /usr/src/app
 

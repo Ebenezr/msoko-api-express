@@ -4,7 +4,7 @@ const redis = require("redis");
 const cache = require("express-redis-cache")();
 
 // create client with URL
-const client = redis.createClient("redis://localhost:6379");
+const client = redis.createClient("redis://redis:6379");
 
 const prisma = new PrismaClient();
 const router = Router();

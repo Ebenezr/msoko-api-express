@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { PrismaClient } from "@prisma/client";
+const redis = require("redis");
+const cache = require("express-redis-cache")();
 
+// create client with URL
+const client = redis.createClient("redis://localhost:6379");
 const prisma = new PrismaClient();
 const router = Router();
 
@@ -63,6 +67,7 @@ router.patch(
 // fetch all order_lists
 router.get(
   "/order_lists",
+  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const order_lists = await prisma.orderList.findMany({});
@@ -78,7 +83,8 @@ router.get(
 
 // fetch single order_lists
 router.get(
-  "/order_lists/:id",
+  "/order_list/:id",
+  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {

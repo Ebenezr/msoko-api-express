@@ -3,7 +3,11 @@ import { PrismaClient } from "@prisma/client";
 import { AnyZodObject } from "zod";
 import { createUserSchema } from "../schemas/user.schema";
 import { createProductCategorySchema } from "../schemas/product.schema";
+const redis = require("redis");
+const cache = require("express-redis-cache")();
 
+// create client with URL
+const client = redis.createClient("redis://localhost:6379");
 const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 const router = Router();
@@ -97,6 +101,7 @@ router.patch(
 // fetch all users
 router.get(
   "/users",
+  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await prisma.user.findMany();
@@ -113,6 +118,7 @@ router.get(
 // fetch single users
 router.get(
   "/user/:id",
+  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {

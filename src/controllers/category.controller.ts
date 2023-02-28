@@ -3,6 +3,11 @@ import { NextFunction, Request, Response, Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import cacheMiddleware, { redisClient } from "../middleware/redis.middleware";
 import multerMiddleware from "../middleware/multer.middleware";
+const redis = require("redis");
+const cache = require("express-redis-cache")();
+
+// create client with URL
+const client = redis.createClient("redis://localhost:6379");
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -69,6 +74,7 @@ router.patch(
 // fetch all category
 router.get(
   "/categories",
+  cache.route(),
 
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -91,6 +97,7 @@ router.get(
 // fetch single categories
 router.get(
   "/category/:id",
+  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {

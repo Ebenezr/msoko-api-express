@@ -2,8 +2,11 @@ import { NextFunction, Request, Response, Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import multerMiddleware from "../middleware/multer.middleware";
 import cloudinary from "cloudinary";
-import cacheMiddleware, { redisClient } from "../middleware/redis.middleware";
+const redis = require("redis");
+const cache = require("express-redis-cache")();
 
+// create client with URL
+const client = redis.createClient("redis://localhost:6379");
 const prisma = new PrismaClient();
 const router = Router();
 
@@ -72,6 +75,7 @@ router.patch(
 // fetch all products
 router.get(
   "/products",
+  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const products = await prisma.product.findMany({
@@ -87,6 +91,7 @@ router.get(
 // fetch single products
 router.get(
   "/product/:id",
+  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {

@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { PrismaClient } from "@prisma/client";
+const redis = require("redis");
+const cache = require("express-redis-cache")();
+
+// create client with URL
+const client = redis.createClient("redis://localhost:6379");
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -57,6 +62,7 @@ router.patch(
 // fetch all towns
 router.get(
   "/towns",
+  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const towns = await prisma.town.findMany();
@@ -70,6 +76,7 @@ router.get(
 // fetch single towns
 router.get(
   "/town/:id",
+  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 // import redisClient from "../utils/connectRedis";
 const redis = require("redis");
 export const redisClient = redis.createClient({
-  url: "redis://localhost:6379",
+  url: "redis://host.docker.internal:6379",
 });
 (async () => {
   redisClient.on("error", (error: any) => console.error(`Ups : ${error}`));

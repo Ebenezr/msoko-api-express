@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  db:
+  postgres-db:
     image: postgres:14.1-alpine
     container_name: postgres
     ports:
@@ -12,8 +12,8 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: always
-    networks:
-      - sai
+    expose:
+      - 5432
 
   redis:
     image: redis:alpine
@@ -22,10 +22,10 @@ services:
       - '6379:6379'
     volumes:
       - redisDB:/data
-    networks:
-      - sai
+    expose:
+      - 6379
 
-  api:
+  api-service:
     build: .
     container_name: prisma-server-api
     links:
@@ -36,17 +36,16 @@ services:
     ports:
       - "5000:5000"
     restart: always
-    environment:
-      - WAIT_HOSTS: db:5432, redis:6379
-    networks:
-      - sai
+    command:
+      npm run start:prod
+    volumes:
+      - .:/home/node/api
+      - node_modules:/home/node/api/node_modules
 
-networks:
-  sai:
-    driver: bridge
 
 volumes:
   postgres-data:
     driver: local
   redisDB:
+  node_modules:
 

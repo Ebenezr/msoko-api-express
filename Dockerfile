@@ -23,7 +23,7 @@ RUN yarn global add prisma
 RUN npx prisma generate deploy
 
 # run seed data
-# RUN npx prisma db seed
+RUN npx prisma db seed
 
 
 LABEL Maintainer="Ebenezar Blind <ebenezarbukosia@gmail.com>" \

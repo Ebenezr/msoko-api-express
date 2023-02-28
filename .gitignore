@@ -10,7 +10,6 @@ node_modules
 coverage
 *.tsbuildinfo
 .env
-.env.example
 .env.dist
 build
 dist

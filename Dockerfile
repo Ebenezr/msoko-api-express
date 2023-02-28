@@ -6,9 +6,9 @@ COPY package.json yarn.lock ./
 
 # COPY prisma ./prisma/
 # Install Node dependencies
-COPY . .
-
 RUN yarn install  --only=development
+COPY . .
+RUN yarn build
 
 
 # Install prisma CLI
@@ -31,7 +31,7 @@ COPY package.json yarn.lock ./
 
 RUN yarn install --only=production
 
-RUN yarn build
+
 
 COPY . .
 COPY --from=development /usr/src/app/prisma ./prisma
@@ -55,4 +55,4 @@ ENV CLOUDINARY_API_SECRET=8kI5-lZFW4b6dRhbXS0PI1hO51Y
 
 EXPOSE 5000
 
-CMD ["node", "dist/index.js"]
+CMD npm run start:prod

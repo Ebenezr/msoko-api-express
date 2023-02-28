@@ -35,7 +35,7 @@ RUN yarn build
 
 COPY . .
 COPY --from=development /usr/src/app/prisma ./prisma
-COPY --from=development /urs/src/app/dist ./dist
+COPY --from=development /usr/src/app/dist ./dist
 
 # LABEL "Ebenezar Blind <ebenezarbukosia@gmail.com>" \
 #     Description="Lightweight container with Node 19 based on Alpine Linux"

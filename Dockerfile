@@ -4,23 +4,13 @@ WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
 
-# COPY prisma ./prisma/
 # Install Node dependencies
 RUN yarn install  --only=development
+
 COPY . .
+
 RUN yarn build
 
-
-# Install prisma CLI
-# RUN yarn global add prisma
-
-# COPY .env.example ./prisma/.env
-# Generate local prisma client
-# RUN npx prisma generate deploy
-
-# run seed data
-# RUN npx prisma db seed
-# Copy source files
 
 FROM node:latest AS production
 # Build the application
@@ -48,7 +38,7 @@ ENV POSTGRES_PASSWORD=postgres
 ENV POSTGRES_DB=kapaoil_DB
 ENV REDIS_HOST=localhost
 ENV REDIS_PORT=6379
-ENV DATABASE_URL=postgresql://postgres:postgres@localhost:5432/kapaoil_DB?schema=public
+ENV DATABASE_URL=postgresql://postgres:postgres@localhost:5432/kapaoil_DB?schema=public?connect_timeout=300
 ENV CLOUDINARY_CLOUD_NAME=dbkeoqmg5
 ENV CLOUDINARY_API_KEY=784643547226384
 ENV CLOUDINARY_API_SECRET=8kI5-lZFW4b6dRhbXS0PI1hO51Y

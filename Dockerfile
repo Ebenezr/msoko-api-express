@@ -1,28 +1,41 @@
-FROM node:19-alpine AS builder
+FROM node:19-alpine AS development
 
 WORKDIR /app
 
 COPY package.json yarn.lock /app/
 
-COPY prisma ./prisma/
+# COPY prisma ./prisma/
 # Install Node dependencies
-RUN yarn install
+COPY . .
+
+RUN yarn install  --only=development
 
 
 # Install prisma CLI
-RUN yarn global add prisma
+# RUN yarn global add prisma
 
-COPY .env.example ./prisma/.env
+# COPY .env.example ./prisma/.env
 # Generate local prisma client
-RUN npx prisma generate deploy
+# RUN npx prisma generate deploy
 
 # run seed data
-RUN npx prisma db seed
+# RUN npx prisma db seed
 # Copy source files
-COPY . .
 
+FROM node:19-alpine AS production
 # Build the application
+
+WORKDIR /app
+
+COPY package.json yarn.lock /app/
+
+RUN yarn install --only=production
+
 RUN yarn build
+
+COPY . .
+COPY --from=development /app/prisma ./prisma
+COPY --from=development /app/dist ./dist
 
 # LABEL "Ebenezar Blind <ebenezarbukosia@gmail.com>" \
 #     Description="Lightweight container with Node 19 based on Alpine Linux"

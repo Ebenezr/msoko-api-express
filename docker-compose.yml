@@ -2,7 +2,7 @@ version: "3.9"
 services:
   postgres-db:
     image: postgres:14.1-alpine
-    container_name: postgres
+    container_name: postgres-db
     ports:
       - 5432:5432
     environment:
@@ -27,11 +27,11 @@ services:
 
   api-service:
     build: .
-    container_name: prisma-server-api
+    container_name: api-service
     links:
-      - db
+      - postgres-db
     depends_on:
-      - db
+      - postgres-db
       - redis
     ports:
       - "5000:5000"

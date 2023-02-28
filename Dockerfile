@@ -18,7 +18,7 @@ RUN yarn build
 # Install prisma CLI
 RUN yarn global add prisma
 
-COPY .env.example ./prisma/.env
+# COPY .env.example ./prisma/.env
 # Generate local prisma client
 RUN npx prisma generate deploy
 

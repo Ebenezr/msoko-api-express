@@ -9,7 +9,7 @@
     "dev": "nodemon --config nodemon.json src/index.ts",
     "prisma": "prisma",
     "build": "tsc",
-    "start:prod": "npm run generate:prisma && npm run dist/main",
+    "start:prod": "npm run generate:prisma && npm run dist/index.js",
     "generate:prisma": "npx prisma migrate dev --name init",
     "analyze": "cross-env ANALYZE=true next build"
   },

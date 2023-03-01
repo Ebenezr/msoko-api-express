@@ -10,8 +10,8 @@
     "prisma": "prisma",
     "build": "tsc",
     "start:prod": "npm run generate:prisma && npm run dist/index.js",
-    "generate:prisma": "npx prisma migrate dev --name init",
-    "analyze": "cross-env ANALYZE=true next build"
+    "generate:prisma": "npx prisma migrate dev --name init && npm run seed",
+    "seed": "npx prisma db seed"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

@@ -14,9 +14,7 @@ model User {
   id             Int              @id @default(autoincrement())
   name           String
   email          String           @unique
-  emailVerified  DateTime?
   phone          String
-  image          String?
   password       String?
   addresses      Address[]
   createdAt      DateTime         @default(now())
@@ -161,16 +159,29 @@ model productPayment {
   Orders     Orders[]
 }
 
+model ShoppingCart {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  status    CartStatus
+  OrderList OrderList[]
+}
+
 model OrderList {
-  id        Int      @id @default(autoincrement())
-  product   Product  @relation(fields: [productId], references: [id])
-  productId Int
-  order     Orders   @relation(fields: [orderId], references: [id])
-  orderId   Int
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int          @id @default(autoincrement())
+  product      Product      @relation(fields: [productId], references: [id])
+  productId    Int
+  shoppingcart ShoppingCart @relation(fields: [cartId], references: [id])
+  cartId       Int
+  user         User         @relation(fields: [userId], references: [id])
+  userId       Int
+  price        Decimal
+  subTotal     Decimal
+  size         String
+  quantity     Int
+  image_url    String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 }
 
 model Orders {
@@ -185,7 +196,6 @@ model Orders {
   updatedAt        DateTime       @updatedAt
   addressId        Int
   productPaymentId Int
-  OrderList        OrderList[]
 }
 
 model County {
@@ -206,4 +216,9 @@ enum OrderStatus {
   PENDING
   COMPLETE
   CANCELED
+}
+
+enum CartStatus {
+  Active
+  Saved
 }

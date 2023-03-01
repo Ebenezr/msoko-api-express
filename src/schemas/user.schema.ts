@@ -12,11 +12,9 @@ export const loginUserSchema = z.object({
       required_error: "Email address is required",
     })
     .email("Invalid email address"),
-  password: z
-    .string({
-      required_error: "Password is required",
-    })
-    .min(8, "Invalid email or password"),
+  password: z.string({
+    required_error: "Password is required",
+  }),
 });
 
 // export type CreateUserInput = Omit<

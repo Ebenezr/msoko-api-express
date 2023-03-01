@@ -11,6 +11,7 @@ import reviewsRouter from "../controllers/reviews.controller";
 import addressRouter from "../controllers/address.controller";
 import countyRouter from "../controllers/counties.controller";
 import townRouter from "../controllers/towns.controller";
+import authRouter from "../controllers/auth.controller";
 
 const router = Router();
 
@@ -26,5 +27,6 @@ router.use("/api", reviewsRouter);
 router.use("/api", addressRouter);
 router.use("/api", townRouter);
 router.use("/api", countyRouter);
+router.use("/api", authRouter);
 
 export default router;

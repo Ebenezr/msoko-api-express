@@ -35,10 +35,10 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       // check if there is already an user with the same email address
-      const existinguser = await prisma.user.findUnique({
+      const existingUser = await prisma.user.findUnique({
         where: { email: req.body.email },
       });
-      if (existinguser) {
+      if (existingUser) {
         // return an error if the email is already in use
         return res
           .status(400)
@@ -50,7 +50,7 @@ router.post(
         data: { ...req.body, password: hashedPassword },
       });
 
-      res.json({ success: true, payload: result });
+      res.json(result);
     } catch (error) {
       next(error);
     }
@@ -66,10 +66,7 @@ router.delete(
       const user = await prisma.user.delete({
         where: { id: Number(id) },
       });
-      res.json({
-        success: true,
-        payload: user,
-      });
+      res.json(user);
     } catch (error) {
       next(error);
     }
@@ -88,10 +85,7 @@ router.patch(
         where: { id: Number(id) },
         data: { ...req.body, password: hashedPassword },
       });
-      res.json({
-        success: true,
-        payload: user,
-      });
+      res.json(user);
     } catch (error) {
       next(error);
     }
@@ -101,14 +95,10 @@ router.patch(
 // fetch all users
 router.get(
   "/users",
-  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await prisma.user.findMany();
-      res.json({
-        success: true,
-        payload: user,
-      });
+      res.json(user);
     } catch (error) {
       next(error);
     }
@@ -118,7 +108,6 @@ router.get(
 // fetch single users
 router.get(
   "/user/:id",
-  cache.route(),
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
@@ -128,10 +117,7 @@ router.get(
         },
       });
 
-      res.json({
-        success: true,
-        payload: user,
-      });
+      res.json(user);
     } catch (error) {
       next(error);
     }

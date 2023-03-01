@@ -24,7 +24,7 @@ const validate =
 
 router.post(
   "/login",
-  validate(loginUserSchema),
+
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;

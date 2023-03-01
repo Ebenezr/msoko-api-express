@@ -30,6 +30,7 @@ services:
     container_name: api-service
     links:
       - postgres-db
+      - redis
     depends_on:
       - postgres-db
       - redis

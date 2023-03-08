@@ -209,7 +209,7 @@ model County {
 model Town {
   id       Int    @id @default(autoincrement())
   name     String @unique
-  county   County @relation(fields: [countyId], references: [id])
+  county   County @relation(fields: [countyId], references: [id], onDelete: Cascade)
   countyId Int
 }
 

@@ -9,7 +9,6 @@ async function seed() {
       name: "John Doe",
       phone: "123-456-7890",
       email: "john@prisma.io",
-      image: "https://api.realworld.io/images/smiley-cyrus.jpeg",
 
       addresses: {
         create: {
@@ -30,7 +29,6 @@ async function seed() {
       name: "Mercy Grace",
       phone: "123-456-7890",
       email: "mercy@prisma.io",
-      image: "https://api.realworld.io/images/smiley-cyrus.jpeg",
 
       addresses: {
         create: {

@@ -3,13 +3,6 @@ import { PrismaClient } from "@prisma/client";
 import { AnyZodObject } from "zod";
 import { createUserSchema } from "../schemas/user.schema";
 import { createProductCategorySchema } from "../schemas/product.schema";
-const redis = require("redis");
-const cache = require("express-redis-cache")();
-
-// create client with URL
-const client = redis.createClient(
-  "redis://default:6WoKnd5yQ36bq4kDc596@containers-us-west-201.railway.app:7546"
-);
 const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 const router = Router();

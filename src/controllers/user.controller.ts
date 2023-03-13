@@ -118,4 +118,25 @@ router.get(
   }
 );
 
+router.get(
+  "/userinfo/:email",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email } = req.params;
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+        include: {
+          addresses: true,
+        },
+      });
+
+      res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;

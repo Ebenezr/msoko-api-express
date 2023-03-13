@@ -33,8 +33,6 @@ router.post(
           .status(400)
           .json({ success: false, error: "Invalid email or password" });
       }
-      console.log(user);
-
       const passwordMatch = await bcrypt.compare(password, user.password ?? "");
       if (!passwordMatch) {
         return res

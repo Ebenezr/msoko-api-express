@@ -72,19 +72,55 @@ router.patch(
   }
 );
 
-// fetch all products
+// // fetch all products
+// router.get(
+//   "/products",
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const products = await prisma.product.findMany({
+//         include: {
+//           review: true,
+//           ProductInventory: true,
+//           ProductDiscount: true,
+//         },
+//       });
+//       res.json(products);
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
+
+// fetch products with pagination
 router.get(
   "/products",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const page = parseInt(req.query.page as string, 10) || 1;
+      const itemsPerPage = parseInt(req.query.limit as string, 10) || 10;
+
+      const startIndex = (page - 1) * itemsPerPage; // Calculate the starting index for the current page
+      const endIndex = startIndex + itemsPerPage; // Calculate the ending index for the current page
+
       const products = await prisma.product.findMany({
         include: {
           review: true,
           ProductInventory: true,
           ProductDiscount: true,
         },
+        skip: startIndex, // Skip the first (startIndex) items
+        take: itemsPerPage, // Only retrieve (itemsPerPage) items
       });
-      res.json(products);
+
+      const totalItems = await prisma.product.count(); // Get the total number of items
+
+      res.json({
+        currentPage: page,
+        totalPages: Math.ceil(totalItems / itemsPerPage),
+        itemsPerPage: itemsPerPage,
+        totalItems: totalItems,
+        items: products.slice(0, endIndex), // Get only the items for the current page
+      });
     } catch (error) {
       next(error);
     }
